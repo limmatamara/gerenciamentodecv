@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+.card{
+  background-color: white;
+  width: 100%;
+  border-radius:10px;
+  margin-top:20px;
+  padding:20px;
+  -moz-box-shadow: 0px 2px 4px rgb(53, 53, 53);
+  -webkit-box-shadow: 0px 2px 4px rgb(53, 53, 53);
+  box-shadow: 0px 2px 4px rgb(53, 53, 53);
+  position:relative
+}
+
+.card h4{
+  font-weight: bold;
+  font-size:24px;
+  margin-right:8px;
+}
+
+.card .initialDiv{
+  display: flex;
+  align-items: center;
+}
+
+.card .pcd{
+  color: #045CC3;
+  font-size: 20px;
+}
+
+.card .cliente{
+  color: #045CC3;
+  font-weight: bold;
+  display: block;
+}
+
+.card .local{
+  display: block;
+}
+
+.card .customerPlace{
+  margin-top:15px;
+  display: flex;
+  align-items: center;
+}
+
+.card .topInfo{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card .topRightInfo{
+  width: 25%;
+  align-self: baseline;
+}
+
+.card .statusBadge{
+  background-color: #07864B;
+  margin-right: -20px;
+  display: flex;
+  align-items: center;
+  padding: 6px 5px;
+}
+
+.card .statusBadge svg{
+  color:white;
+  font-size:20px;
+  display: inline-block;
+  margin-right:8px;
+}
+
+.card .statusBadge p{
+  color:white;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+}
+
+.card .topRightInfo span{
+  margin-left:30px;
+  margin-top:10px;
+  display: block;
+  font-size: 14px;
+}
+
+.card .bottomInfo{
+  display: flex;
+  justify-content: space-between;
+  margin-top:15px
+}
+
+.card .bottomInfo .bottomLeftInfo, .card .bottomInfo .bottomRightInfo{
+  width: 50%;
+}
+
+.card .bottomInfo span{
+  color: #045CC3;
+  font-weight: bold;
+}
+
+.card .apliesDiv{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card .apliesDiv .nameDiv{
+  width: 50%;
+  margin-top:15px;
+  display: flex;
+  align-items: center;
+}
+
+.card .apliesDiv .nameDiv span{
+  width: 100%;
+  margin-left:5px;
+  word-wrap: break-word;
+}
+
+.card .apliesDiv .nameDiv svg{
+  color: #045CC3
+}
+
+.card .plusDiv{
+  margin-top:15px;
+  display: flex;
+  justify-content: end;
+}
+
+.card .plusDiv svg{
+  color: #045CC3;
+  font-size:48px;
+  position: absolute;
+  bottom:5px;
+  cursor:pointer
+}
