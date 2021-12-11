@@ -4,6 +4,7 @@ import{
   Route
 } from "react-router-dom";
 import Curriculos from "./pages/Curriculos";
+import { AuthProvider } from "./Context/AuthContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
@@ -11,11 +12,13 @@ import Login from "./pages/Login";
 const Routers = () =>{
   return(
     <BrowserRouter>
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>} />
         <Route path="/curriculos" element={<Curriculos/>} />
       </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

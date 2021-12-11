@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import styles from '../styles/Login.module.css'
 
 const Login = () =>{
-  const handleLogin = useContext(AuthContext);
+  const { handleLogin }  = useContext(AuthContext);
   return (
     <div className={styles.loginContainer}>
       <div className={styles.textContainer}>
@@ -17,8 +17,7 @@ const Login = () =>{
             senha: ''
           }}
           onSubmit={async (user) => {
-            await handleLogin();
-            console.log(user);
+            await handleLogin(user);
           }}
         >
           <Form>
