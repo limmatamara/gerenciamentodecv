@@ -1,20 +1,34 @@
 import styles from "./Card.module.css";
 import { FaAccessibleIcon } from "react-icons/fa";
-import { AiFillInfoCircle, AiFillPlusCircle } from "react-icons/ai";
+import { AiFillInfoCircle } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";
 import moment from "moment";
-import Popup from "reactjs-popup";
+
 import "reactjs-popup/dist/index.css";
 import { VagasContext } from '../context/VagasContext'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import PopupModal from "./PopupModal";
 
 const Card = ({ info }) => {
 
-  const {listaCandidatos,setListaCandidatos} = useContext(VagasContext)
+  const {listaCandidatos} = useContext(VagasContext)
 
   const maxLengthVerify = (max, value) => {
     return value.length > max ? `${value.substring(0, max)}...` : value;
   };
+
+  const [naoCadastrados,setNaoCadastrados] = useState([])
+
+  useEffect(()=>{
+    const candidatosNaoInscritos = listaCandidatos.filter((candidato) => {
+      if(!info.ListaDeCandidatos.some((candidatoInscrito)=> candidatoInscrito.id == candidato.id)){
+        return candidato
+      }
+    })
+    setNaoCadastrados(candidatosNaoInscritos)
+  },[])
+
+  console.log(naoCadastrados)
 
   const data = info.DataAbertura;
   return (
@@ -64,26 +78,14 @@ const Card = ({ info }) => {
       </div>
       <div className={styles.apliesDiv}>
         {info.ListaDeCandidatos.map((candidato) => (
-          <div className={styles.nameDiv}>
+          <div key={candidato.id} className={styles.nameDiv}>
             <BiUser />
             <span>{maxLengthVerify(32, candidato.Nome)}</span>
           </div>
         ))}
       </div>
       <div className={styles.plusDiv}>
-        <Popup
-          trigger={<AiFillPlusCircle/>}
-          modal
-          nested
-        >
-          {(close) => (
-            <div className="modal">
-              <div className="content">
-
-              </div>
-            </div>
-          )}
-        </Popup>
+        <PopupModal cardInfo={info} titulo={info.Titulo} naoCadastrados={naoCadastrados}/>
       </div>
     </div>
   );

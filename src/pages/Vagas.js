@@ -4,7 +4,7 @@ import { VagasContext } from '../context/VagasContext'
 import styles from './Vagas.module.css'
 
 const Vagas = () =>{
-  const {listaVagas,setListaVagas} = useContext(VagasContext)
+  const {listaVagas,setListaVagas,listaCandidatos, setListaCandidatos} = useContext(VagasContext)
   useEffect(()=>{
     setListaVagas([
       {
@@ -121,6 +121,57 @@ const Vagas = () =>{
           }
         ]
       }
+    ])
+
+    setListaCandidatos([
+      {
+        id:0,
+        Nome: "Lucas Cintra Garcia",
+        CPF: "123.123.531-23",
+        DataNascimento: "22/11/2002",
+        Endereco: "Rua Fulano Siclano",
+        Cargo: "Desenvolvedor React",
+        Senioridade: "Júnior",
+        DadosEscolares: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci a sapien ultrices vehicula et sit amet lorem. Phasellus tristique sapien euismod velit cursus cursus. Integer augue tortor",
+        Experiencias: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci a sapien ultrices vehicula et sit amet lorem. Phasellus tristique sapien euismod velit cursus cursus. Integer augue tortor",
+        Curriculo: "Curriculo"
+      },
+      {
+        id:1,
+        Nome: "Tamara Lima",
+        CPF: "145.156.511-23",
+        DataNascimento: "10/11/2002",
+        Endereco: "Rua Fulanão Siclanão",
+        Cargo: "Desenvolvedor React",
+        Senioridade: "Júnior",
+        DadosEscolares: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci a sapien ultrices vehicula et sit amet lorem. Phasellus tristique sapien euismod velit cursus cursus. Integer augue tortor",
+        Experiencias: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci a sapien ultrices vehicula et sit amet lorem. Phasellus tristique sapien euismod velit cursus cursus. Integer augue tortor",
+        Curriculo: "Curriculo"
+      },
+      {
+        id:2,
+        Nome: "Bruno Zonatto",
+        CPF: "953.143.511-23",
+        DataNascimento: "04/02/2002",
+        Endereco: "Rua Imaginária Brasil",
+        Cargo: "Desenvolvedor Java",
+        Senioridade: "Júnior",
+        DadosEscolares: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci a sapien ultrices vehicula et sit amet lorem. Phasellus tristique sapien euismod velit cursus cursus. Integer augue tortor",
+        Experiencias: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci a sapien ultrices vehicula et sit amet lorem. Phasellus tristique sapien euismod velit cursus cursus. Integer augue tortor",
+        Curriculo: "Curriculo"
+      },
+      {
+        id:3,
+        Nome: "Camile",
+        CPF: "145.105.585-23",
+        DataNascimento: "05/05/2002",
+        Endereco: "Rua Fictícia Fulano",
+        Cargo: "Desenvolvedor Java",
+        Senioridade: "Júnior",
+        DadosEscolares: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci a sapien ultrices vehicula et sit amet lorem. Phasellus tristique sapien euismod velit cursus cursus. Integer augue tortor",
+        Experiencias: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci a sapien ultrices vehicula et sit amet lorem. Phasellus tristique sapien euismod velit cursus cursus. Integer augue tortor",
+        Curriculo: "Curriculo"
+      },
     ])
   },[])
   console.log(listaVagas)
