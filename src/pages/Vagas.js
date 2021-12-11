@@ -59,7 +59,7 @@ const Vagas = () =>{
           },
           {
             id:1,
-            Nome: "Tamara Lima",
+            Nome: "Tamara Lima LimaLimaLimaLimaLimaLima LimaLima",
             CPF: "145.156.511-23",
             DataNascimento: "10/11/2002",
             Endereco: "Rua Fulanão Siclanão",

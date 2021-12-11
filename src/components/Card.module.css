@@ -112,13 +112,20 @@
 }
 
 .card .apliesDiv .nameDiv span{
-  width: 100%;
   margin-left:5px;
   word-wrap: break-word;
 }
 
 .card .apliesDiv .nameDiv svg{
   color: #045CC3
+}
+
+.card .apliesDiv .nameDiv .closeIcon:hover{
+  color: #ff0000;
+}
+
+.card .apliesDiv .nameDiv .closeIcon{
+  margin-left:5px;
 }
 
 .card .plusDiv{

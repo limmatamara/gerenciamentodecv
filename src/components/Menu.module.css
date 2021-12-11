@@ -1,5 +1,7 @@
 .nav li{
   margin-left:15px;
+  display: flex;
+  align-items: center;
 }
 
 .nav ul{
@@ -10,4 +12,21 @@
   text-decoration: none;
   color:white;
   font-size: 18px;
+}
+
+.nav .logout{
+  border: none;
+  font-weight: bold;
+  padding:7px;
+  border-radius: 10px;
+  font-size:16px;
+  cursor: pointer;
+  background-color: #277DE2;
+  border:white 1px solid;
+  color:white
+}
+
+.nav .logout:hover{
+  background-color: rgb(255, 255, 255);
+  color: #277DE2
 }

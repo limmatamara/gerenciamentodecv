@@ -28,6 +28,9 @@ const Menu = () =>{
         <li>
           <CustomLink to ="/curriculos">Currículos</CustomLink>
         </li>
+        <li>
+          <button className={styles.logout}>Deslogar</button>
+        </li>
       </ul>
     </nav>
   )

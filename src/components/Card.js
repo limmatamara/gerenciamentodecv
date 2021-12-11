@@ -1,6 +1,6 @@
 import styles from "./Card.module.css";
 import { FaAccessibleIcon } from "react-icons/fa";
-import { AiFillInfoCircle } from "react-icons/ai";
+import { AiFillInfoCircle, AiFillCloseCircle } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";
 import moment from "moment";
 
@@ -11,7 +11,7 @@ import PopupModal from "./PopupModal";
 
 const Card = ({ info }) => {
 
-  const {listaCandidatos} = useContext(VagasContext)
+  const {listaCandidatos,listaVagas,setListaVagas} = useContext(VagasContext)
 
   const maxLengthVerify = (max, value) => {
     return value.length > max ? `${value.substring(0, max)}...` : value;
@@ -26,9 +26,7 @@ const Card = ({ info }) => {
       }
     })
     setNaoCadastrados(candidatosNaoInscritos)
-  },[])
-
-  console.log(naoCadastrados)
+  },[listaVagas])
 
   const data = info.DataAbertura;
   return (
@@ -79,12 +77,21 @@ const Card = ({ info }) => {
       <div className={styles.apliesDiv}>
         {info.ListaDeCandidatos.map((candidato) => (
           <div key={candidato.id} className={styles.nameDiv}>
-            <BiUser />
-            <span>{maxLengthVerify(32, candidato.Nome)}</span>
+            <BiUser className={styles.personIcon} />
+            <span>{maxLengthVerify(28, candidato.Nome)}</span>
+            <AiFillCloseCircle onClick={()=>{
+              let novaListaDeCandidatos = info.ListaDeCandidatos.filter((candidatoLista)=> candidatoLista.id != candidato.id)
+              let novaListaVagas = listaVagas.filter((vaga)=> vaga.id != info.id)
+              info.ListaDeCandidatos = novaListaDeCandidatos
+              novaListaVagas.push(info)
+              novaListaVagas.sort((a,b) => a.id > b.id ? 1 : -1)
+              setListaVagas(novaListaVagas)
+            }} className={styles.closeIcon} />
           </div>
         ))}
       </div>
       <div className={styles.plusDiv}>
+        {info.ListaDeCandidatos.length == 0 && <span>&nbsp;</span>}
         <PopupModal cardInfo={info} titulo={info.Titulo} naoCadastrados={naoCadastrados}/>
       </div>
     </div>
