@@ -1,6 +1,8 @@
 import {Link} from "react-router-dom"
 import styles from "./Menu.module.css"
 import { useMatch, useResolvedPath } from 'react-router'
+import { useContext } from "react";
+import { AuthContext } from '../context/AuthContext'
 
 function CustomLink({ children, to }) {
   let resolved = useResolvedPath(to);
@@ -19,6 +21,7 @@ function CustomLink({ children, to }) {
 }
 
 const Menu = () =>{
+  const { handleLogout }  = useContext(AuthContext)
   return(
     <nav className={styles.nav}>
       <ul>
@@ -29,7 +32,9 @@ const Menu = () =>{
           <CustomLink to ="/curriculos">Currículos</CustomLink>
         </li>
         <li>
-          <button className={styles.logout}>Deslogar</button>
+          <button onClick={()=>{
+            handleLogout()
+          }} className={styles.logout}>Deslogar</button>
         </li>
       </ul>
     </nav>

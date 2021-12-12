@@ -8,13 +8,21 @@ import { AuthProvider } from "./context/AuthContext"
 import { VagasProvider } from "./context/VagasContext"
 import Curriculos from "./pages/Curriculos"
 import Home from "./pages/Home"
+import { useState, useEffect } from "react"
 
 const Routers = () =>{
+  const [isLogin, setIsLogin] = useState(false)
+  useEffect(()=>{
+    const token = localStorage.getItem('token')
+    if(token){
+      setIsLogin(true)
+    }
+  },[])
   return(
     <BrowserRouter>
       <AuthProvider>
         <VagasProvider>
-          <Header/>
+          {isLogin && <Header/>}
           <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/curriculos" element={<Curriculos/>} />
