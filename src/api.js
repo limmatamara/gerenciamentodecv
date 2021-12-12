@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const api = axios.create ({
+export default axios.create ({
   baseURL: `https://gerenciamento-cv.herokuapp.com`
 })
-
-export default api;

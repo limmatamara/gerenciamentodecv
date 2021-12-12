@@ -1,7 +1,8 @@
 import { Formik, Field, Form,  } from 'formik';
-import { AuthContext } from '../Context/AuthContext'
+import { AuthContext } from '../context/AuthContext'
 import { useContext } from 'react';
 import styles from '../styles/Login.module.css'
+import axios from 'axios';
 
 const Login = () =>{
   const { handleLogin }  = useContext(AuthContext);
@@ -16,8 +17,8 @@ const Login = () =>{
             usuario: '',
             senha: ''
           }}
-          onSubmit={async (user) => {
-            await handleLogin(user);
+          onSubmit={(values) => {
+            handleLogin(values)
           }}
         >
           <Form>
