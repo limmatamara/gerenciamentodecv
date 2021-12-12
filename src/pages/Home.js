@@ -1,11 +1,13 @@
 import Login from "./Login"
 import Vagas from "./Vagas"
+import { useContext } from "react"
+import { AuthContext } from "../context/AuthContext"
 
 const Home = () =>{
-  const logado = true // Variável que futuramente será nosso Auth vendo se o usuário está logado, alterar pra false pra mostrar o login
+  const { auth }  = useContext(AuthContext)
   return(
     <div>
-      {logado ? <Vagas/> : <Login/>}
+      {auth ? <Vagas/> : <Login/>}
     </div>
   )
 }

@@ -24,7 +24,6 @@ const AuthProvider = ({ children }) =>{
     const {data} = await api.post('/auth',user)
     localStorage.setItem('token',data)
     api.defaults.headers.common['Authorization'] = data
-    window.location.href = '/pessoa'
     // navigate('/pessoa')
     setAuth(true)
   }
@@ -32,7 +31,6 @@ const AuthProvider = ({ children }) =>{
   const handleLogout = () =>{
     localStorage.removeItem('token')
     api.defaults.headers.common['Authorization'] = ''
-    window.location.href = '/login'
     // navigate('/login')
     setAuth(false)
   }

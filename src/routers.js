@@ -15,7 +15,6 @@ const Routers = () =>{
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/login" element={<Login/>} />
         <Route path="/curriculos" element={<Curriculos/>} />
       </Routes>
       </AuthProvider>
