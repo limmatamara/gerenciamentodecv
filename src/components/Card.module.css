@@ -18,6 +18,10 @@
   margin-right:8px;
 }
 
+.card h4 span{
+  margin-left:5px;
+}
+
 .card .initialDiv{
   display: flex;
   align-items: center;
@@ -53,14 +57,37 @@
 .card .topRightInfo{
   width: 25%;
   align-self: baseline;
+} 
+
+.card .topLeftInfo{
+  width: 75%
 }
 
 .card .statusBadge{
-  background-color: #07864B;
   margin-right: -20px;
   display: flex;
   align-items: center;
   padding: 6px 5px;
+}
+
+.card .greenBadge{
+  background-color: #07864B;
+}
+
+.card .blueBadge{
+  background-color: rgb(30, 126, 204);
+}
+
+.card .grayBadge{
+  background-color: gray;
+}
+
+.card .yellowBadge{
+  background-color: rgb(212, 212, 55);
+}
+
+.card .redBadge{
+  background-color: red;
 }
 
 .card .statusBadge svg{
@@ -126,6 +153,7 @@
 
 .card .apliesDiv .nameDiv .closeIcon{
   margin-left:5px;
+  cursor:pointer
 }
 
 .card .plusDiv{
@@ -140,4 +168,10 @@
   position: absolute;
   bottom:5px;
   cursor:pointer
+}
+
+.card .loadingGif{
+  width: 20%;
+  margin: 0 auto;
+  display: block;
 }
