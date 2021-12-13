@@ -21,11 +21,16 @@ const AuthProvider = ({ children }) =>{
   const navigate = useNavigate()
 
   const handleLogin = async(user) =>{
-    const {data} = await api.post('/auth',user)
-    localStorage.setItem('token',data)
-    api.defaults.headers.common['Authorization'] = data
-    // navigate('/pessoa')
-    setAuth(true)
+    try {
+      const {data} = await api.post('/auth',user)
+      localStorage.setItem('token',data)
+      api.defaults.headers.common['Authorization'] = data
+      // navigate('/pessoa')
+      setAuth(true)
+      window.location.reload()
+    } catch (error) {
+      alert('Usuário ou senha incorretos!')
+    }
   }
 
   const handleLogout = () =>{
@@ -33,6 +38,7 @@ const AuthProvider = ({ children }) =>{
     api.defaults.headers.common['Authorization'] = ''
     // navigate('/login')
     setAuth(false)
+    window.location.reload()
   }
 
   if(loading){

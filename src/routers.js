@@ -2,21 +2,32 @@ import{
   BrowserRouter,
   Routes,
   Route
-} from "react-router-dom";
-import Curriculos from "./pages/Curriculos";
-import { AuthProvider } from "./context/AuthContext";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-
+} from "react-router-dom"
+import Header from "./components/Header"
+import { AuthProvider } from "./context/AuthContext"
+import { VagasProvider } from "./context/VagasContext"
+import Curriculos from "./pages/Curriculos"
+import Home from "./pages/Home"
+import { useState, useEffect } from "react"
 
 const Routers = () =>{
+  const [isLogin, setIsLogin] = useState(false)
+  useEffect(()=>{
+    const token = localStorage.getItem('token')
+    if(token){
+      setIsLogin(true)
+    }
+  },[])
   return(
     <BrowserRouter>
-    <AuthProvider>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/curriculos" element={<Curriculos/>} />
-      </Routes>
+      <AuthProvider>
+        <VagasProvider>
+          {isLogin && <Header/>}
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/curriculos" element={<Curriculos/>} />
+          </Routes>
+        </VagasProvider>
       </AuthProvider>
     </BrowserRouter>
   )

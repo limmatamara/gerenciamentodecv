@@ -1,0 +1,65 @@
+.popup-content{
+  background-color: #F5F7FC;
+  padding:15px;
+  max-height: 90%;
+  overflow-y: auto; 
+}
+
+.titulo-popup{
+  display: block;
+  margin: 0 auto;
+  font-size:24px;
+  padding-top:20px;
+}
+
+.mainDiv{
+  display: flex;
+  flex-direction: column;
+}
+
+.usuarioLi{
+  display: flex;
+  align-items: center;
+  margin-top:15px;
+}
+
+.candidatoInfo{
+  width: 90%;
+  background-color: white;
+  padding:20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sideInfo{
+  display: flex;
+  align-items: center;
+}
+
+.sideInfo svg{
+  color: #045CC3;
+  font-size:24px
+}
+
+.sideInfo p{
+  font-size:18px;
+  margin-left:10px;
+}
+
+.adicionarCandidato{
+  color:#045CC3;
+  font-size:32px;
+  display: block;
+  margin: 0 auto;
+  cursor:pointer
+}
+
+.adicionarCandidatoDiv{
+  width: 10%;
+}
+
+.loadingGif{
+  width: 50%;
+  margin: 0 auto;
+  display: block;
+}
