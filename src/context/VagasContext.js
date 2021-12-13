@@ -13,6 +13,13 @@ const VagasProvider = ({children}) =>{
   const getListVagas = async () =>{
     const {data} = await api.get('/vaga/vagas-candidatos')
     data.sort((a,b) => a.vaga.id > b.vaga.id ? 1 : -1)
+    data.map((vaga)=>{
+      vaga.candidatos.sort(function(a, b){
+        if(a.nome[0] < b.nome[0]) { return -1; }
+        if(a.nome[0] > b.nome[0]) { return 1; }
+        return 0;
+    })
+    })
     setLoadingJobs(false)
     setListaVagas(data)
   }
