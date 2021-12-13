@@ -16,6 +16,7 @@ const PopupModal = ({ cardInfo }) => {
   const [loadingCandidate,setLoadingCandidate] = useState(true)
 
   const getNaoCadastrados = async () =>{
+    setLoadingCandidate(true)
     const {data} = await api.get('/candidato')
     let candidatosNaoInscritos = data.filter((candidato) => {
       if(!cardInfo.candidatos.some((candidatoInscrito) => candidatoInscrito.idCandidato == candidato.idCandidato)){
