@@ -1,8 +1,9 @@
 import {Link} from "react-router-dom"
 import styles from "./Menu.module.css"
 import { useMatch, useResolvedPath } from 'react-router'
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from '../context/AuthContext'
+import api from "../api";
 
 function CustomLink({ children, to }) {
   let resolved = useResolvedPath(to);
@@ -19,12 +20,21 @@ function CustomLink({ children, to }) {
     </div>
   );
 }
-
 const Menu = () =>{
+  const [infoLogado,setInfoLogado] = useState()
+  useEffect(()=>{
+    (async()=>{
+      const {data} = await api.get('/user')
+      setInfoLogado(data)
+    })() 
+  },[])
   const { handleLogout }  = useContext(AuthContext)
   return(
     <nav className={styles.nav}>
       <ul>
+        <li>
+          <span className={styles.hello}>{`Olá ${infoLogado ? infoLogado.nome : 'Usuário'}`}</span>
+        </li>
         <li>
           <CustomLink to="/">Vagas</CustomLink>
         </li>

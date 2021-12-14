@@ -8,10 +8,11 @@ import PopupModal from "./PopupModal";
 import loadingGif from "../images/loading.gif"
 import { useContext } from "react";
 import { VagasContext } from "../context/VagasContext";
+import api from "../api"
 
 const Card = ({ info }) => {
 
-  const {loadingAddCandidate} = useContext(VagasContext)
+  const {loadingAddCandidate,getListVagas,setLoadingAddCandidate} = useContext(VagasContext)
 
   const maxLengthVerify = (max, value) => {
     return value.length > max ? `${value.substring(0, max)}...` : value;
@@ -71,8 +72,11 @@ const Card = ({ info }) => {
           <div key={candidato.idCandidato} className={styles.nameDiv}>
             <BiUser className={styles.personIcon} />
             <span>{maxLengthVerify(28, candidato.nome)}</span>
-            <AiFillCloseCircle onClick={()=>{
-              console.log('cliquei')
+            <AiFillCloseCircle onClick={async ()=>{
+              setLoadingAddCandidate({state:true,cardId:info.vaga.id})
+              await api.delete(`https://gerenciamento-cv.herokuapp.com/vaga/desvincular-candidato?idCandidato=${candidato.idCandidato}&idVaga=${info.vaga.id}`)
+              getListVagas()
+              setLoadingAddCandidate({state:false,cardId:null})
             }} className={styles.closeIcon} />
           </div>
         ))}
