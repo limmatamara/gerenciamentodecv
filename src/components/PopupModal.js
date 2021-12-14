@@ -8,6 +8,7 @@ import api from "../api";
 import { useState, useEffect } from "react";
 import "./Popup.css";
 import loadingGif from "../images/loading.gif"
+import ReactTooltip from "react-tooltip"
 
 const PopupModal = ({ cardInfo }) => {
   const {listaVagas,getListVagas,loadingAddCandidate, setLoadingAddCandidate} = useContext(VagasContext)
@@ -28,9 +29,18 @@ const PopupModal = ({ cardInfo }) => {
   }
   return (
     <>
+      {cardInfo.vaga.Status != 'Aberta' 
+      ? 
+      <>
+        <AiFillPlusCircle data-tip data-for="disabledTip" className={'disabledPopup'}/> 
+        <ReactTooltip id="disabledTip" place="top" effect="solid">
+          A vaga não está mais aberta
+        </ReactTooltip>
+      </>
+      :       
       <Popup onOpen={()=>{
         getNaoCadastrados()
-      }} trigger={<AiFillPlusCircle/>} modal nested>
+      }} trigger={<AiFillPlusCircle className={'abledPopup'} />} modal nested>
         {(close) => (
           <div className="mainDiv">
             <h4 className="titulo-popup">{cardInfo.vaga.Titulo}</h4>
@@ -59,7 +69,7 @@ const PopupModal = ({ cardInfo }) => {
             </ul>}
           </div>
         )}
-      </Popup>
+      </Popup>}
     </>
   );
 };
