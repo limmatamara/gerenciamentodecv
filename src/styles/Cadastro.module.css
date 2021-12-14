@@ -1,5 +1,10 @@
-body  {
-  background-color: #E5E5E5;;
+.cadastroBody {
+  background-image:url(../images/FundoDBC.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:650px;
+  width: 100%;
+  display: inline-block;
 }
 
 .cadastroContainer {
@@ -61,4 +66,16 @@ body  {
 
 .cadastroContainer button:hover {
   cursor: pointer;
+}
+
+.loginContainer {
+  margin-top: 7%;
+  color: #616161;
+  display: flex;
+  justify-content: center;
+}
+
+.loginContainer a {
+  text-decoration: none;
+  color: #277DE2;
 }
