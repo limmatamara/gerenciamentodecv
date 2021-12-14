@@ -7,6 +7,7 @@ import Header from "./components/Header"
 import { AuthProvider } from "./context/AuthContext"
 import { VagasProvider } from "./context/VagasContext"
 import Curriculos from "./pages/Curriculos"
+import Cadastro from "./pages/Cadastro"
 import Home from "./pages/Home"
 import { useState, useEffect } from "react"
 
@@ -26,6 +27,7 @@ const Routers = () =>{
           <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/curriculos" element={<Curriculos/>} />
+            <Route path='/cadastro' element={<Cadastro/>}/>
           </Routes>
         </VagasProvider>
       </AuthProvider>
