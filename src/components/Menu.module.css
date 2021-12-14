@@ -30,3 +30,10 @@
   background-color: rgb(255, 255, 255);
   color: #277DE2
 }
+
+.nav .hello{
+  color:white;
+  font-weight: bold;
+  padding-right: 15px;
+  border-right: 1px solid white
+}
