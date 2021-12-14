@@ -5,10 +5,16 @@ import styles from '../styles/Cadastro.module.css'
 
 const Cadastro = () => {
   const cadastraNovoUsuario = async (cadastrarUsuario) => {
-    await api.post('/user/create-cadastrador', cadastrarUsuario);
+    try 
+    {
+      const {data} =  await api.post('/user/create-cadastrador', cadastrarUsuario);
+      alert(`O cadastro para ${data.nome} foi criado com sucesso`);
+    } catch(error) {
+      alert("Ocorreu um erro ao buscar os items");
+    }    
   };
 
-  return (
+    return (
     <div className={styles.cadastroContainer}>
       <div className={styles.textContainer}>
         <p>Seja bem vindo!</p>
@@ -21,8 +27,7 @@ const Cadastro = () => {
             email: '',
           }}
           onSubmit={(values) => {
-            cadastraNovoUsuario(values);
-            console.log(values)
+           cadastraNovoUsuario(values);
           }}
         >
         <Form>
@@ -53,7 +58,7 @@ const Cadastro = () => {
             </div>
           </div>
 
-          <button type="submit">Fazer Cadastro</button>
+          <button type="submit"> Fazer Cadastro</button>
         </Form>
         </Formik>
       </div>
