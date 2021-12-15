@@ -1,7 +1,33 @@
 import { Formik, Field, Form, FieldArray } from "formik";
 import styles from "./CadastroCandidato.module.css";
+import api from "../api"
 
 const CadastroCandidato = () => {
+
+  const postCandidato = async (values) =>{
+    const candidatoCreateDTO = {
+      cargo: values.cargo,
+      complemento: values.complemento,
+      cpf: values.cpf,
+      dataNascimento: values.dataNascimento,
+      logradouro: values.rua,
+      nome: values.nome,
+      numero: values.numero,
+      senioridade: values.senioridade,
+      telefone: values.telefone
+    }
+    const {data} = await api.post('/candidato',candidatoCreateDTO)
+    return data.idCandidato
+  }
+
+  const postCurriculo = async (values,idCandidato) =>{
+    const curriculoDTO = values.curriculo
+    const formData = new FormData()
+    formData.append('file', values.curriculo)
+    await api.post(`/curriculo/upload-curriculo/${idCandidato}`,formData)
+  }
+
+
   return (
     <div className={styles.cadastroContainer}>
       <Formik
@@ -9,21 +35,22 @@ const CadastroCandidato = () => {
           nome: "",
           cpf: "",
           dataNascimento: "",
-          endereco: "",
+          rua: "",
           cargo: "",
           senioridade: "",
           experiencias: "",
           dadosEscolares: [],
           experiencias: [],
           curriculo: "",
+          complemento:"",
+          numero:"",
+          telefone: ""
         }}
-        onSubmit={(values) =>
-          setTimeout(() => {
-            console.log('Arquivo do Currículo: ',values.curriculo);
-            console.log('Dados Escolares: ',values.dadosEscolares)
-            console.log('Experiências ',values.experiencias)
+        onSubmit={async (values) => {         
+            let idCandidato = await postCandidato(values)
+            await postCurriculo(values,idCandidato)
             console.log('Objeto Inteiro: ',values)
-          }, 500)
+          }
         }
       >
         {({ values, setFieldValue }) => (
@@ -50,11 +77,38 @@ const CadastroCandidato = () => {
               </div>
 
               <div className={styles.fieldDiv}>
-                <label htmlFor="endereco">Endereço</label>
+                <label htmlFor="telefone">Telefone</label>
                 <Field
-                  id="endereco"
-                  name="endereco"
-                  placeholder="Digite seu endereço"
+                  id="telefone"
+                  name="telefone"
+                  placeholder="Digite seu telefone"
+                />
+              </div>
+
+              <div className={styles.fieldDiv}>
+                <label htmlFor="rua">Rua</label>
+                <Field
+                  id="rua"
+                  name="rua"
+                  placeholder="Digite sua rua"
+                />
+              </div>
+
+              <div className={styles.fieldDiv}>
+                <label htmlFor="complemento">Complemento</label>
+                <Field
+                  id="complemento"
+                  name="complemento"
+                  placeholder="Digite o complemento"
+                />
+              </div>
+
+              <div className={styles.fieldDiv}>
+                <label htmlFor="numero">Número</label>
+                <Field
+                  id="numero"
+                  name="numero"
+                  placeholder="Digite o numero"
                 />
               </div>
 
@@ -79,7 +133,6 @@ const CadastroCandidato = () => {
                     <div>
                       {values.dadosEscolares.map((dadosEscolares, index) => (
                         <div className={styles.arrayDiv} key={index}>
-                          {/** both these conventions do the same */}
                           <div className={styles.fieldDiv}>
                             <label
                               className={styles.subLabels}

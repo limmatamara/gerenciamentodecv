@@ -68,6 +68,7 @@
   margin-bottom:15px;
   border-radius:5px;
   padding: 5px 0px;
+  cursor: pointer;
 }
 
 .cadastroContainer .arrayDiv{
@@ -88,4 +89,5 @@
   display: block;
   border-radius:5px;
   padding: 5px 0px;
+  cursor: pointer;
 }
