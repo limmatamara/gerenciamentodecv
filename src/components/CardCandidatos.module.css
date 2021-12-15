@@ -1,0 +1,40 @@
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: auto;
+}
+
+.candidatoContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+    width: 40%;
+    margin: 2%;
+    padding: 2% 0%;
+}
+
+.icons {
+  color: #045CC3;
+  font-size: 90%;
+  margin-right: 3%;
+}
+
+.iconEdit {
+  font-size: 80%;
+  color: #045CC3;
+  margin-left: 2%;
+}
+
+.iconUser {
+  color: #045CC3;
+  font-size: 400%;
+  margin: 3% 0%;
+}
+
+
+
