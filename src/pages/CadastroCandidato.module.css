@@ -1,0 +1,91 @@
+.cadastroContainer{
+  width: 50%;
+  background-color: white;
+  margin:20px auto;
+  border-radius:10px;
+  -moz-box-shadow: 0px 0 5px -2px rgb(53, 53, 53);
+  -webkit-box-shadow: 0px 0 5px -2px rgb(53, 53, 53);
+  box-shadow: 0px 0 5px -2px rgb(53, 53, 53);
+}
+
+.cadastroContainer .fieldDiv{
+  display: flex;
+  flex-direction: column;
+}
+
+.cadastroContainer input, .cadastroContainer textarea{
+  border: 1px solid #E8E8E8;
+  padding: 15px 10px;
+  border-radius:6px;
+  margin-bottom:15px;
+}
+
+.cadastroContainer label{
+  color: #4A5568;
+  margin-bottom:15px;
+}
+
+.cadastroContainer .cadastroTitulo{
+  text-align: center;
+  margin: 30px 0px;
+  display: inline-block;
+  width: 100%;
+}
+
+.cadastroContainer .formDiv{
+  width: 60%;
+  margin: 0 auto
+}
+
+.cadastroContainer .submitButton{
+  width: 100%;
+  background-color: #045CC3;
+  border: none;
+  padding: 10px 0;
+  color:white;
+  font-weight: bold;
+  font-size:18px;
+  border-radius:5px;
+  margin-bottom:15px;
+}
+
+.cadastroContainer textarea{
+  padding-bottom:50px;
+  resize: none;
+}
+
+.cadastroContainer .subLabels{
+  font-size:14px;
+}
+
+.cadastroContainer .arrayButtons{
+  width: 20%;
+  background-color: #045CC3;
+  border: none;
+  color:white;
+  font-weight: bold;
+  font-size:18px;
+  margin-bottom:15px;
+  border-radius:5px;
+  padding: 5px 0px;
+}
+
+.cadastroContainer .arrayDiv{
+  border: 1px solid #E8E8E8;
+  border-radius:6px;
+  padding:20px;
+  margin-bottom:15px;
+}
+
+.cadastroContainer .arrayButtonsAdd{
+  width: 20%;
+  background-color: #045CC3;
+  border: none;
+  color:white;
+  font-weight: bold;
+  font-size:18px;
+  margin: 10px auto;
+  display: block;
+  border-radius:5px;
+  padding: 5px 0px;
+}

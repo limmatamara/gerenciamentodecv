@@ -10,6 +10,7 @@ import Curriculos from "./pages/Curriculos"
 import Cadastro from "./pages/Cadastro"
 import Home from "./pages/Home"
 import { useState, useEffect } from "react"
+import CadastroCandidato from "./pages/CadastroCandidato"
 
 const Routers = () =>{
   const [isLogin, setIsLogin] = useState(false)
@@ -28,6 +29,7 @@ const Routers = () =>{
             <Route path="/" element={<Home/>}/>
             <Route path="/curriculos" element={<Curriculos/>} />
             <Route path='/cadastro' element={<Cadastro/>}/>
+            <Route path='/cadastro-candidato' element={<CadastroCandidato/>}/>
           </Routes>
         </VagasProvider>
       </AuthProvider>
