@@ -1,10 +1,14 @@
 import { Formik, Field, Form, FieldArray } from "formik";
 import styles from "./CadastroCandidato.module.css";
-import api from "../api"
+import api from "../api";
+import { useState } from "react";
 
 const CadastroCandidato = () => {
+  
+  const [disabledFieldsSchool,setDisabledFieldsSchool] = useState([])
+  const [disabledFieldsExp,setDisabledFieldsExp] = useState([])
 
-  const postCandidato = async (values) =>{
+  const postCandidato = async (values) => {
     const candidatoCreateDTO = {
       cargo: values.cargo,
       complemento: values.complemento,
@@ -12,21 +16,49 @@ const CadastroCandidato = () => {
       dataNascimento: values.dataNascimento,
       logradouro: values.rua,
       nome: values.nome,
-      numero: values.numero,
+      numero: Number(values.numero),
       senioridade: values.senioridade,
-      telefone: values.telefone
-    }
-    const {data} = await api.post('/candidato',candidatoCreateDTO)
-    return data.idCandidato
-  }
+      telefone: values.telefone,
+    };
+    const { data } = await api.post("/candidato", candidatoCreateDTO);
+    return data.idCandidato;
+  };
 
-  const postCurriculo = async (values,idCandidato) =>{
-    const curriculoDTO = values.curriculo
-    const formData = new FormData()
-    formData.append('file', values.curriculo)
-    await api.post(`/curriculo/upload-curriculo/${idCandidato}`,formData)
-  }
+  const postCurriculo = async (values, idCandidato) => {
+    const formData = new FormData();
+    formData.append("file", values.curriculo);
+    await api.post(`/curriculo/upload-curriculo/${idCandidato}`, formData);
+  };
 
+  const postExperiencia = async (values, idCandidato) => {
+    values.experiencias.map(async (experiencia) => {
+      let experienciaDTO = {
+        dataFim: experiencia.dataFim == "" ? null : new Date(experiencia.dataFim),
+        dataInicio: new Date(experiencia.dataInicio),
+        descricao: experiencia.descricao,
+        nomeEmpresa: experiencia.nomeEmpresa,
+      };
+      await api.post(
+        `/experiencias?idCandidato=${idCandidato}`,
+        experienciaDTO
+      );
+    });
+  };
+
+  const postDadosEscolares = async (values, idCandidato) => {
+    values.dadosEscolares.map(async (dados) => {
+      let dadosEscolaresDTO = {
+        dataFim: dados.dataFim == "" ? null : new Date(dados.dataFim),
+        dataInicio: new Date(dados.dataInicio),
+        descricao: dados.descricao,
+        instituicao: dados.instituicao,
+      };
+      await api.post(
+        `/dados-escolares?idCandidato=${idCandidato}`,
+        dadosEscolaresDTO
+      );
+    });
+  };
 
   return (
     <div className={styles.cadastroContainer}>
@@ -38,20 +70,21 @@ const CadastroCandidato = () => {
           rua: "",
           cargo: "",
           senioridade: "",
-          experiencias: "",
           dadosEscolares: [],
           experiencias: [],
           curriculo: "",
-          complemento:"",
-          numero:"",
-          telefone: ""
+          complemento: "",
+          numero: "",
+          telefone: "",
         }}
-        onSubmit={async (values) => {         
-            let idCandidato = await postCandidato(values)
-            await postCurriculo(values,idCandidato)
-            console.log('Objeto Inteiro: ',values)
-          }
-        }
+        onSubmit={async (values, { resetForm }) => {
+          let idCandidato = await postCandidato(values);
+          await postCurriculo(values, idCandidato);
+          await postExperiencia(values, idCandidato);
+          await postDadosEscolares(values, idCandidato);
+          alert("Candidato cadastrado com sucesso");
+          resetForm();
+        }}
       >
         {({ values, setFieldValue }) => (
           <Form>
@@ -87,11 +120,7 @@ const CadastroCandidato = () => {
 
               <div className={styles.fieldDiv}>
                 <label htmlFor="rua">Rua</label>
-                <Field
-                  id="rua"
-                  name="rua"
-                  placeholder="Digite sua rua"
-                />
+                <Field id="rua" name="rua" placeholder="Digite sua rua" />
               </div>
 
               <div className={styles.fieldDiv}>
@@ -180,6 +209,28 @@ const CadastroCandidato = () => {
                             <Field
                               placeholder="Data Fim"
                               name={`dadosEscolares.${index}.dataFim`}
+                              id={`dadosEscolares.${index}.dataFim`}
+                              disabled={disabledFieldsSchool.some(value => value == index)}
+                            />
+                            <label
+                              className={styles.subLabels}
+                              htmlFor={`dadosEscolares.${index}.atualmente`}
+                            >
+                              Atualmente?
+                            </label>
+                            <Field
+                              value="atualmente"
+                              type="checkbox"
+                              name={`dadosEscolares.${index}.atualmente`}
+                              onClick={()=>{
+                                setFieldValue(`dadosEscolares.${index}.dataFim`,"")
+                                if(disabledFieldsSchool.some(value => value == index)){
+                                  const position = disabledFieldsSchool.indexOf(index)
+                                  disabledFieldsSchool.splice(position,1)
+                                } else{
+                                  setDisabledFieldsSchool([...disabledFieldsSchool,index])
+                                }                               
+                              }}
                             />
                           </div>
 
@@ -266,6 +317,27 @@ const CadastroCandidato = () => {
                             <Field
                               placeholder="Data Fim"
                               name={`experiencias.${index}.dataFim`}
+                              disabled={disabledFieldsExp.some(value => value == index)}
+                            />
+                            <label
+                              className={styles.subLabels}
+                              htmlFor={`experiencias.${index}.atualmente`}
+                            >
+                              Atualmente?
+                            </label>
+                            <Field
+                              value="atualmente"
+                              type="checkbox"
+                              name={`experiencias.${index}.atualmente`}
+                              onClick={()=>{
+                                setFieldValue(`experiencias.${index}.dataFim`,"")
+                                if(disabledFieldsExp.some(value => value == index)){
+                                  const position = disabledFieldsExp.indexOf(index)
+                                  disabledFieldsExp.splice(position,1)
+                                } else{
+                                  setDisabledFieldsExp([...disabledFieldsExp,index])
+                                }                               
+                              }}
                             />
                           </div>
 
@@ -303,7 +375,7 @@ const CadastroCandidato = () => {
                   name="curriculo"
                   placeholder="Upload do seu currículo"
                   onChange={(e) => {
-                    setFieldValue("curriculo",e.target.files[0])
+                    setFieldValue("curriculo", e.target.files[0]);
                   }}
                 />
               </div>
