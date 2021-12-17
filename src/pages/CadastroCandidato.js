@@ -34,7 +34,16 @@ const CadastroCandidato = () => {
   const validateDate = (value) => {
     let today = moment()
     let formatedDate = moment(value, 'DDMMYYYY', true).format('YYYY-MM-DD')
-    return (moment(formatedDate).isValid() && today.diff(moment(value, 'DDMMYYYY'), 'days') > 0)
+    return (moment(formatedDate).isValid() && today.diff(moment(value, 'DDMMYYYY'), 'days') > 0 && today.diff(moment(value, 'DDMMYYYY'), 'years') < 110)
+  }
+
+  const isAgeEnough = (value) =>{
+    let today = moment()
+    return today.diff(moment(value, 'DDMMYYYY'), 'years') >= 16
+  }
+
+  const removePhoneMask = (value) => {
+    return value.replaceAll(' ','').replaceAll('(','').replaceAll(')','').replaceAll('-','').replaceAll('_','')
   }
 
   const postCandidato = async (values) => {
@@ -49,8 +58,14 @@ const CadastroCandidato = () => {
       senioridade: values.senioridade,
       telefone: values.telefone,
     };
-    const { data } = await api.post("/candidato", candidatoCreateDTO);
-    return data.idCandidato;
+    try {
+      const { data } = await api.post("/candidato", candidatoCreateDTO);
+      return data.idCandidato;
+    } catch (error) {
+      if(error.response.data.message == 'CPF já cadastrado'){
+        alert('O CPF inserido já existe em nosso sistema')
+      }
+    }
   };
 
   const postCurriculo = async (values, idCandidato) => {
@@ -63,7 +78,7 @@ const CadastroCandidato = () => {
     values.experiencias.map(async (experiencia) => {
       let experienciaDTO = {
         dataFim: experiencia.dataFim == "" ? null : new Date(experiencia.dataFim),
-        dataInicio: new Date(experiencia.dataInicio),
+        dataInicio: new Date(formatDateToApi(experiencia.dataInicio)),
         descricao: experiencia.descricao,
         nomeEmpresa: experiencia.nomeEmpresa,
       };
@@ -78,7 +93,7 @@ const CadastroCandidato = () => {
     values.dadosEscolares.map(async (dados) => {
       let dadosEscolaresDTO = {
         dataFim: dados.dataFim == "" ? null : new Date(dados.dataFim),
-        dataInicio: new Date(dados.dataInicio),
+        dataInicio: new Date(formatDateToApi(dados.dataInicio)),
         descricao: dados.descricao,
         instituicao: dados.instituicao,
       };
@@ -98,24 +113,47 @@ const CadastroCandidato = () => {
     }).required('Campo Obrigatório').length(11,'CPF deve conter 11 números'),
     dataNascimento: Yup.string().transform(value => {
       return formatDateRaw(value)
-    }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate),
+    }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("idade-suficiente","O candidato deve ter ao menos 16 anos",isAgeEnough),
     rua: Yup.string().required('Campo Obrigatório'),
     nome: Yup.string().required('Campo Obrigatório'),
     numero: Yup.string().required('Campo Obrigatório'),
     senioridade: Yup.string().required('Campo Obrigatório'),
-    telefone: Yup.string().required('Campo Obrigatório'),
+    telefone: Yup.string().transform(value => removePhoneMask(value)).required('Campo Obrigatório').length(11,'Digite seu telefone celular completo'),
     experiencias: Yup.array()
     .of(Yup.object().shape({
       nomeEmpresa: Yup.string().required('Campo Obrigatório'),
-      dataInicio: Yup.string().required('Campo Obrigatório'),
+      dataInicio: Yup.string().transform(value => {
+        return formatDateRaw(value)
+      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate),
+      dataFim: Yup.string().when("atualmente",{
+        is: (val) => val == false,
+        then: Yup.string().transform(value => {
+          return formatDateRaw(value)
+        }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura","Não pode ser uma data futura ao início",function(v){
+          return moment(v,'DDMMYYYY',true) > moment(this.parent.dataInicio,'DDMMYYYY',true)
+        }),
+        otherwise: Yup.string().notRequired()
+      }),
       descricao: Yup.string().required('Campo Obrigatório'),
     })),
     dadosEscolares: Yup.array()
     .of(Yup.object().shape({
       instituicao: Yup.string().required('Campo Obrigatório'),
-      dataInicio: Yup.string().required('Campo Obrigatório'),
+      dataInicio: Yup.string().transform(value => {
+        return formatDateRaw(value)
+      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate),
       descricao: Yup.string().required('Campo Obrigatório'),
-    }))
+      dataFim: Yup.string().when("atualmente",{
+        is: (val) => val == false,
+        then: Yup.string().transform(value => {
+          return formatDateRaw(value)
+        }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura","Não pode ser uma data futura ao início",function(v){
+          return moment(v,'DDMMYYYY',true) > moment(this.parent.dataInicio,'DDMMYYYY',true)
+        }),
+        otherwise: Yup.string().notRequired()
+      }),
+    })),
+    curriculo: Yup.mixed().required('É necessário seu currículo')
   });
 
   return (
@@ -183,7 +221,9 @@ const CadastroCandidato = () => {
                 <Field
                   id="telefone"
                   name="telefone"
-                  placeholder="Digite seu telefone"
+                  render={({field})=>(
+                    <ReactInputMask {...field} placeholder="Digite seu telefone" mask={'(99) 99999-9999'} />
+                  )}
                 />
                 {errors.telefone && touched.telefone && <p className={styles.errors}>{errors.telefone}</p>}
               </div>
@@ -210,6 +250,7 @@ const CadastroCandidato = () => {
                   id="numero"
                   name="numero"
                   placeholder="Digite o numero"
+                  type="number"
                 />
                 {errors.numero && touched.numero && <p className={styles.errors}>{errors.numero}</p>}
               </div>
@@ -272,8 +313,10 @@ const CadastroCandidato = () => {
                               Data Início
                             </label>
                             <Field
-                              placeholder="Data início"
                               name={`dadosEscolares.${index}.dataInicio`}
+                              render={({field})=>(
+                                <ReactInputMask {...field} placeholder="Data início" mask={'99/99/9999'} />
+                              )}
                             />
                             <ErrorMessage name={`dadosEscolares[${index}].dataInicio`} render={msg => <p className={styles.errors}>{msg}</p>} />                                 
                           </div>
@@ -285,11 +328,13 @@ const CadastroCandidato = () => {
                               Data Fim
                             </label>
                             <Field
-                              placeholder="Data Fim"
                               name={`dadosEscolares.${index}.dataFim`}
                               id={`dadosEscolares.${index}.dataFim`}
-                              disabled={disabledFieldsSchool.some(value => value == index)}
+                              render={({field})=>(
+                                <ReactInputMask {...field} disabled={disabledFieldsSchool.some(value => value == index)} placeholder="Data Fim" mask={disabledFieldsSchool.some(value => value == index) ? "" : "99/99/9999"} />
+                              )}
                             />
+                            <ErrorMessage name={`dadosEscolares[${index}].dataFim`} render={msg => <p className={styles.errors}>{msg}</p>} />  
                             <label
                               className={styles.subLabels}
                               htmlFor={`dadosEscolares.${index}.atualmente`}
@@ -330,6 +375,7 @@ const CadastroCandidato = () => {
                             descricao: "",
                             dataInicio: "",
                             dataFim: "",
+                            atualmente: 0
                           })
                         }
                       >
@@ -383,8 +429,10 @@ const CadastroCandidato = () => {
                               Data Início
                             </label>
                             <Field
-                              placeholder="Data início"
                               name={`experiencias.${index}.dataInicio`}
+                              render={({field})=>(
+                                <ReactInputMask {...field} placeholder="Data início" mask={'99/99/9999'} />
+                              )}
                             />
                             <ErrorMessage name={`experiencias[${index}].dataInicio`} render={msg => <p className={styles.errors}>{msg}</p>} />
                           </div>
@@ -396,10 +444,12 @@ const CadastroCandidato = () => {
                               Data Fim
                             </label>
                             <Field
-                              placeholder="Data Fim"
                               name={`experiencias.${index}.dataFim`}
-                              disabled={disabledFieldsExp.some(value => value == index)}
+                              render={({field})=>(
+                                <ReactInputMask {...field} disabled={disabledFieldsExp.some(value => value == index)} placeholder="Data Fim" mask={disabledFieldsExp.some(value => value == index) ? "" : "99/99/9999"} />
+                              )}
                             />
+                            <ErrorMessage name={`experiencias[${index}].dataFim`} render={msg => <p className={styles.errors}>{msg}</p>} />
                             <label
                               className={styles.subLabels}
                               htmlFor={`experiencias.${index}.atualmente`}
@@ -440,6 +490,7 @@ const CadastroCandidato = () => {
                             descricao: "",
                             dataInicio: "",
                             dataFim: "",
+                            atualmente: 0
                           })
                         }
                       >
@@ -450,6 +501,7 @@ const CadastroCandidato = () => {
                 />
               </div>
               <div className={styles.fieldDiv}>
+                <label htmlFor="curriculo">Faça o upload do seu currículo</label>
                 <input
                   type="file"
                   id="curriculo"
@@ -460,6 +512,7 @@ const CadastroCandidato = () => {
                     changeFile(e,setFieldValue)
                   }}
                 />
+                {errors.curriculo && touched.curriculo && <p className={styles.errors}>{errors.curriculo}</p>}
               </div>
               <button className={styles.submitButton} type="submit">
                 Fazer Cadastro
