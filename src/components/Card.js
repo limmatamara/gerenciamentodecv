@@ -72,12 +72,16 @@ const Card = ({ info }) => {
           <div key={candidato.idCandidato} className={styles.nameDiv}>
             <BiUser className={styles.personIcon} />
             <span>{maxLengthVerify(28, candidato.nome)}</span>
+            {info.vaga.Status == 'Aberta' 
+            ?             
             <AiFillCloseCircle onClick={async ()=>{
               setLoadingAddCandidate({state:true,cardId:info.vaga.id})
               await api.delete(`https://gerenciamento-cv.herokuapp.com/vaga/desvincular-candidato?idCandidato=${candidato.idCandidato}&idVaga=${info.vaga.id}`)
               getListVagas()
               setLoadingAddCandidate({state:false,cardId:null})
-            }} className={styles.closeIcon} />
+            }} className={styles.closeIcon} /> 
+            : 
+            null}
           </div>
         ))}
       </div>
