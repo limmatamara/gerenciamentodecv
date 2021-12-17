@@ -1,10 +1,8 @@
 import { useContext, useEffect } from "react";
 import SchoolDataDetail from "../components/SchoolDataDetail";
 import CandidatoDataDetail from "../components/CandidatoDataDetail";
+import ExperienceCandidateDetail from "../components/ExperienceCandidateDetail";
 import { CandidatosContext } from "../context/CandidatosContext";
-import moment from "moment";
-import { BiUser } from "react-icons/bi";
-import { GrTarget} from "react-icons/gr"
 
 const DetalheCandidato = () => {
   const {idCandidato, dadosCompletosCandidato, getDadosCompletosCandidato} = useContext(CandidatosContext);
@@ -13,10 +11,11 @@ const DetalheCandidato = () => {
     getDadosCompletosCandidato(idCandidato);  
   }, [] );
 
-  return (
-    <div>  
+  return ( 
+    <div>
       <CandidatoDataDetail/>
       <SchoolDataDetail/>
+      <ExperienceCandidateDetail/>
     </div>
   )
 }

@@ -7,7 +7,8 @@ import styles from './CandidatoDataDetail.module.css'
 
 const CandidatoDataDetail = () => {
   const {dadosCompletosCandidato} = useContext(CandidatosContext);
-
+  
+  
   return (
     <div className={styles.container}>  
       {dadosCompletosCandidato.map(dados => (        
