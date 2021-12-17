@@ -1,0 +1,63 @@
+.container {
+  width: 1200px;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.infoCandidatoContainer {
+  display: flex;
+}
+
+.userContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 20%;
+  margin-right: 4%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+  padding: 2%;
+}
+
+.iconUser {
+  color: #045CC3;
+  font-size: 600%;
+  margin-bottom: 4%;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  width: 60%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+  padding: 2%;
+}
+
+.textInfoContainer {  
+  margin-left: 5%;
+}
+
+.textInfoContainer p {
+  margin-top: 6%;
+}
+
+.infoContainer h2{
+  color: #045CC3;
+  margin-bottom: 8%;
+}
+
+.iconInfo {
+  color: #045CC3;
+  margin-right: 3%;
+}
+
+.infoContainer span {
+  color:#696969;  
+}
+
+

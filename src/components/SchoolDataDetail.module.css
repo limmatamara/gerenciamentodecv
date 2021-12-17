@@ -1,0 +1,80 @@
+.container {
+  width: 1200px;
+  margin: auto;
+}
+
+.schoolDetail {
+  display: flex;
+  margin-top: 3%;
+}
+
+.infoSenioridadeContainer {
+  display: flex;
+  flex-direction: column;
+  width: 250%;
+  padding: 25%;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);  
+}
+
+.iconUser {
+  color: #045CC3;
+  font-size: 600%;
+  margin-bottom: 5%;
+}
+
+.infoSchool {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  width: 60%;
+  margin-left: 20%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+  padding: 2%;
+}
+
+.infoSchoolDetail {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.infoSchool h2 {
+  color: #045CC3;
+  margin-bottom: 3%;
+}
+
+.iconBook {
+  color: #045CC3;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.cardSchool {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-bottom: 4%;
+}
+
+.infoData {
+  display: flex;
+  justify-content: space-between;
+}
+
+.textCardSchool {
+  margin-left: 4%;
+}
+
+.cardSchool span {
+  color: #696969;
+  margin-right: 3px;
+}
+
+.cardSchool p {
+  margin-bottom: 2%;
+}
