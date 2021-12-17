@@ -17,10 +17,10 @@ const CardCandidatos = () => {
         {listaCandidatos.map(candidato => (      
             <div key={candidato.idCandidato} className={styles.candidatoContainer}>
               <h3>{candidato.nome}<BsPencil className={styles.iconEdit}/></h3>
-              <p><BiUser className={styles.iconUser}/></p>                              
-              <p> <BsCalendar className={styles.icons}/>{moment(candidato.dataNascimento).format('DD/MM/YYYY')}</p>
-              <p> <BsBriefcase className={styles.icons}/> {candidato.cargo}</p>
-              <p> <BsGraphUp className={styles.icons}/>{candidato.senioridade}</p> 
+              <BiUser className={styles.iconUser}/>                             
+              <p> <BsCalendar className={styles.icons}/><span>{moment(candidato.dataNascimento).format('DD/MM/YYYY')}</span></p>
+              <p> <BsBriefcase className={styles.icons}/><span>{candidato.cargo}</span></p>
+              <p> <BsGraphUp className={styles.icons}/><span>{candidato.senioridade}</span></p> 
             </div>             
         ))}
         </div>

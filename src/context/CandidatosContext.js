@@ -15,7 +15,7 @@ const CandidatosProvider = ({children}) =>{
   }
 
   return(
-    <CandidatosContext.Provider value={{listaCandidatos,setListaCandidatos, listaCandidatos, setListaCandidatos,getListaCandidatos}}>
+    <CandidatosContext.Provider value={{listaCandidatos,setListaCandidatos, listaCandidatos, setListaCandidatos,getListaCandidatos,loadingCandidatos,}}>
       {children}
     </CandidatosContext.Provider>
   )

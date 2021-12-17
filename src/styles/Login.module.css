@@ -19,6 +19,13 @@
   box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
 }
 
+.loginContainer .logo{
+  width: 250px;
+  margin: 0 auto;
+  display: block;
+  margin-bottom:40px;
+}
+
 .textContainer {
   margin: auto;
 }
