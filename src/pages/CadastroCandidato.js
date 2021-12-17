@@ -129,7 +129,7 @@ const CadastroCandidato = () => {
         is: (val) => val == false,
         then: Yup.string().transform(value => {
           return formatDateRaw(value)
-        }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura","Não pode ser uma data futura ao início",function(v){
+        }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura","Não pode ser uma data antes do início",function(v){
           return moment(v,'DDMMYYYY',true) > moment(this.parent.dataInicio,'DDMMYYYY',true)
         }),
         otherwise: Yup.string().notRequired()
