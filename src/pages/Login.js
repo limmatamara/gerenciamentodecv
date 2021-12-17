@@ -4,6 +4,7 @@ import { useContext } from "react";
 import styles from "../styles/Login.module.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import logo from "../images/logo2.png"
 
 const Login = () => {
   const { handleLogin } = useContext(AuthContext);
@@ -11,6 +12,7 @@ const Login = () => {
     <div className={styles.loginBody}>
       <div className={styles.loginContainer}>
         <div className={styles.textContainer}>
+          <img className={styles.logo} src={logo}/>
           <p>Seja Bem Vindo</p>
           <h1>Faça o login na sua conta</h1>
 
