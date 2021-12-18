@@ -12,6 +12,9 @@ const Vagas = () =>{
   },[])
   return(
     <section className={styles.vagas}>
+      <div className={styles.fundoDBC}>
+        <h1 className={styles.bemvindo}>Controle de Currículo - CV</h1>
+      </div>
       {loadingJobs 
       ? 
       <img className={styles.loadingGif} src={loadingGif}/> 

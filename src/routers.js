@@ -6,12 +6,12 @@ import{
 import Header from "./components/Header"
 import { AuthProvider } from "./context/AuthContext"
 import { VagasProvider } from "./context/VagasContext"
-import Curriculos from "./pages/Curriculos"
 import Cadastro from "./pages/Cadastro"
 import DetalheCandidato from "./pages/DetalheCandidato"
 import ListaCandidatos from "./pages/ListaCandidatos"
 import Home from "./pages/Home"
 import { useState, useEffect } from "react"
+import CadastroCandidato from "./pages/CadastroCandidato"
 import { CandidatosProvider } from "./context/CandidatosContext"
 
 const Routers = () =>{
@@ -34,8 +34,10 @@ const Routers = () =>{
                 <Route path='/cadastro' element={<Cadastro/>}/>
                 <Route path='/listadecandidatos' element={<ListaCandidatos/>} />
                 <Route path='/infocandidato' element={<DetalheCandidato/>} />
+                <Route path='/cadastro-candidato' element={<CadastroCandidato/>}/>
               </Routes>
             </VagasProvider>
+
         </CandidatosProvider>
       </AuthProvider>
     </BrowserRouter>

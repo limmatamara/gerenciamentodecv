@@ -1,6 +1,6 @@
 .cardContainer {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   width: 1200px;
 }
@@ -19,7 +19,13 @@
   flex-direction: column;
   text-align: center;
   text-decoration: none;
-  color: black;
+  color: black;    
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+    width: 45%;
+    margin: 3% 0;
+    padding: 2% 0%;
 }
 
 .icons {
@@ -36,9 +42,26 @@
 
 .iconUser {
   color: #045CC3;
-  font-size: 400%;
-  margin: 3% 0%;
+  font-size: 100px;
+  margin: 0 auto;
 }
 
+.candidatoContainer h3{
+  font-size:24px;
+  font-weight: bold;
+}
 
+.candidatoContainer p{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom:8px;
+}
 
+.candidatoContainer p .icons{
+  font-size: 16px;
+}
+
+.candidatoContainer p span{
+  font-size:18px;
+}

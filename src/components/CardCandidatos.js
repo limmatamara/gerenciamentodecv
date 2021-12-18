@@ -31,6 +31,7 @@ const CardCandidatos = () => {
                
           ))}
           </div>
+
         </div>
       
   )

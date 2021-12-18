@@ -163,11 +163,9 @@
 }
 
 .card .plusDiv svg{
-  color: #045CC3;
   font-size:48px;
   position: absolute;
   bottom:5px;
-  cursor:pointer
 }
 
 .card .loadingGif{
