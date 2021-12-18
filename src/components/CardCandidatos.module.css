@@ -2,7 +2,6 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  width: 1200px;
 }
 
 .candidatoContainer {
@@ -10,22 +9,13 @@
   border-radius: 8px;
   box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
   width: 40%;
-  margin: 2%;
   padding: 2% 0%;
+  margin: 20px 0px
 } 
 
 .candidatoContainer a {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
   text-decoration: none;
-  color: black;    
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
-    width: 45%;
-    margin: 3% 0;
-    padding: 2% 0%;
+  color:black
 }
 
 .icons {
@@ -49,6 +39,8 @@
 .candidatoContainer h3{
   font-size:24px;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
 }
 
 .candidatoContainer p{

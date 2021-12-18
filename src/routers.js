@@ -30,9 +30,8 @@ const Routers = () =>{
               {isLogin && <Header/>}
               <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/curriculos" element={<Curriculos/>} />
                 <Route path='/cadastro' element={<Cadastro/>}/>
-                <Route path='/listadecandidatos' element={<ListaCandidatos/>} />
+                <Route path='/curriculos' element={<ListaCandidatos/>} />
                 <Route path='/infocandidato' element={<DetalheCandidato/>} />
                 <Route path='/cadastro-candidato' element={<CadastroCandidato/>}/>
               </Routes>
