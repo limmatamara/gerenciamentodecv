@@ -6,16 +6,49 @@ import * as Yup from 'yup'
 import { ErrorMessage } from "formik";
 import ReactInputMask from "react-input-mask";
 import moment from "moment";
+import { useContext } from "react";
+import { CandidatosContext } from "../context/CandidatosContext";
 
 const CadastroCandidato = () => {
-  
+  const {editCandidato,editMode,setEditMode} = useContext(CandidatosContext)
   const [disabledFieldsSchool,setDisabledFieldsSchool] = useState([])
   const [disabledFieldsExp,setDisabledFieldsExp] = useState([])
   const [fileInputValue,setFileInputValue] = useState("")
+  console.log(editCandidato)
+  const initialValues = editMode 
+  ? 
+  {
+    nome: editCandidato.candidato.nome,
+    cpf: editCandidato.candidato.cpf,
+    dataNascimento: editCandidato.candidato.dataNascimento,
+    rua: editCandidato.candidato.logradouro,
+    cargo: editCandidato.candidato.cargo,
+    senioridade: editCandidato.candidato.senioridade,
+    dadosEscolares: editCandidato.dadosEscolares,
+    experiencias: editCandidato.experiencias,
+    curriculo: "",
+    complemento: editCandidato.candidato.complemento,
+    numero: editCandidato.candidato.numero,
+    telefone: editCandidato.candidato.telefone,
+  } 
+  : 
+  {
+    nome: "",
+    cpf: "",
+    dataNascimento: "",
+    rua: "",
+    cargo: "",
+    senioridade: "",
+    dadosEscolares: [],
+    experiencias: [],
+    curriculo: "",
+    complemento: "",
+    numero: "",
+    telefone: "",
+  }
 
   const changeFile = (e,setFieldValue) =>{
     setFieldValue("curriculo", e.target.files[0]);
-    console.log(e.target)
     setFileInputValue(e.name)
   }
 
@@ -104,6 +137,10 @@ const CadastroCandidato = () => {
     });
   };
 
+  const putCandidato = async (values) =>{
+
+  }
+
   const SignupSchema = Yup.object().shape({
     nome: Yup.string().required('Campo Obrigatório'),
     cargo: Yup.string().required('Campo Obrigatório'),
@@ -153,43 +190,37 @@ const CadastroCandidato = () => {
         otherwise: Yup.string().notRequired()
       }),
     })),
-    curriculo: Yup.mixed().required('É necessário seu currículo')
+    curriculo: !editMode ? Yup.mixed().required('É necessário seu currículo') : Yup.mixed().notRequired()
   });
 
   return (
     <div className={styles.cadastroContainer}>
       <Formik
         validationSchema={SignupSchema}
-        initialValues={{
-          nome: "",
-          cpf: "",
-          dataNascimento: "",
-          rua: "",
-          cargo: "",
-          senioridade: "",
-          dadosEscolares: [],
-          experiencias: [],
-          curriculo: "",
-          complemento: "",
-          numero: "",
-          telefone: "",
-        }}
+        initialValues={initialValues}
         onSubmit={async (values, { resetForm }) => {
-          let idCandidato = await postCandidato(values);
-          await postCurriculo(values, idCandidato);
-          await postExperiencia(values, idCandidato);
-          await postDadosEscolares(values, idCandidato);
-          alert("Candidato cadastrado com sucesso");
+          if(!editMode){
+            let idCandidato = await postCandidato(values);
+            await postCurriculo(values, idCandidato);
+            await postExperiencia(values, idCandidato);
+            await postDadosEscolares(values, idCandidato);
+            alert("Candidato cadastrado com sucesso");
+          } else{
+            let idCandidato = editCandidato.candidato.idCandidato
+            alert('editou')
+            setEditMode(false)
+          }
           setDisabledFieldsSchool([])
           setDisabledFieldsExp([])
           resetForm();
           setFileInputValue("")
         }}
+        enableReinitialize={true}
       >
         {({ values, setFieldValue, touched, errors }) => (
           <Form>
             <div className={styles.formDiv}>
-              <h1 className={styles.cadastroTitulo}>Cadastro de Candidatos</h1>
+              <h1 className={styles.cadastroTitulo}>{editMode ? "Edição de Candidato" : "Cadastro de Candidatos"}</h1>
               <div className={styles.fieldDiv}>
                 <label htmlFor="nome">Nome</label>
                 <Field id="nome" name="nome" placeholder="Digite seu nome" />
@@ -501,7 +532,7 @@ const CadastroCandidato = () => {
                 />
               </div>
               <div className={styles.fieldDiv}>
-                <label htmlFor="curriculo">Faça o upload do seu currículo</label>
+                <label htmlFor="curriculo">{!editMode ? `Faça o upload do seu currículo` : `Caso queira alterar o currículo faça o upload do novo aqui, do contrário apenas deixe vazio`}</label>
                 <input
                   type="file"
                   id="curriculo"
@@ -515,7 +546,7 @@ const CadastroCandidato = () => {
                 {errors.curriculo && touched.curriculo && <p className={styles.errors}>{errors.curriculo}</p>}
               </div>
               <button className={styles.submitButton} type="submit">
-                Fazer Cadastro
+                {editMode ? "Editar Candidato" : "Registrar Candidato"}
               </button>
             </div>
           </Form>
