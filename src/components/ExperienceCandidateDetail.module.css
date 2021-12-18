@@ -1,0 +1,80 @@
+.container {
+  width: 1200px;
+  margin: auto;
+  
+}
+
+.experienceDetail {
+  display: flex;
+  justify-content: center;
+  margin-top: 3%;
+  margin-bottom: 5%;
+}
+
+.infoCargoContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 40%;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);  
+}
+
+.iconUser {
+  color: #045CC3;
+  font-size: 600%;
+  margin-bottom: 5%;
+}
+
+.infoExperience {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  width: 60%;
+  margin-left: 14.5%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+  padding: 2%;
+}
+
+.textInfoDetail {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  margin-left: 5%;
+}
+
+.textInfoDetail h2 {
+  color: #045CC3;
+  margin-bottom: 4%;
+}
+
+.iconGraph {
+  margin-right: 5%;
+}
+
+.cardExperience {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 8%;
+}
+
+.cardExperience span {
+  color:#696969; 
+  margin-right: 3px;
+}
+
+.cardExperience p {
+  margin-bottom: 2%;
+}
+
+.infoData {
+  display: flex;
+  justify-content: space-between;
+}
+

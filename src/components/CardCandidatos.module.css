@@ -2,14 +2,24 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  width: 100%;
-  margin: auto;
+  width: 1200px;
 }
 
 .candidatoContainer {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+  width: 40%;
+  margin: 2%;
+  padding: 2% 0%;
+} 
+
+.candidatoContainer a {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  text-decoration: none;
+  color: black;    
     background-color: white;
     border-radius: 8px;
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
@@ -21,7 +31,7 @@
 .icons {
   color: #045CC3;
   font-size: 90%;
-  margin-right: 3%;
+  margin-right: 1%;
 }
 
 .iconEdit {
