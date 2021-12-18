@@ -9,9 +9,8 @@ import { Link } from "react-router-dom";
 import styles from './CardCandidatos.module.css';
 import moment from "moment";
 
-
 const CardCandidatos = () => {
-  const {listaCandidatos, editCandidato, idCandidato, setIdCandidato} = useContext(CandidatosContext);
+  const {listaCandidatos, editCandidato, idCandidato, setIdCandidato,getCandidatoCompleto} = useContext(CandidatosContext);
   return (
       
         <div className={styles.container}>
@@ -20,7 +19,10 @@ const CardCandidatos = () => {
            
               <div key={candidato.idCandidato} className={styles.candidatoContainer}>
                  <Link to="/infocandidato" onClick={ () => setIdCandidato(candidato.idCandidato)} >  
-                <h3>{candidato.nome} <BsPencil className={styles.iconEdit}/></h3>
+                <h3>{candidato.nome} <Link to="/cadastro-candidato">
+              <BsPencil onClick={()=>{
+                getCandidatoCompleto(candidato.idCandidato)
+              }} className={styles.iconEdit}/></Link></h3>
                 <p><BiUser className={styles.iconUser}/></p>                          
                 <p> <BsCalendar className={styles.icons}/>{moment(candidato.dataNascimento).format('DD/MM/YYYY')}</p>
                 <p> <BsBriefcase className={styles.icons}/> {candidato.cargo}</p>

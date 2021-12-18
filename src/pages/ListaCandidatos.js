@@ -7,7 +7,7 @@ import loadingGif from "../images/loading.gif"
 
 const ListaCandidatos = () => {
 
-  const {getListaCandidatos, listaCandidatos, setListaCandidatos,loadingCandidatos} = useContext(CandidatosContext);
+  const {getListaCandidatos, listaCandidatos, setListaCandidatos,loadingCandidatos,setEditMode} = useContext(CandidatosContext);
   
   useEffect(() => {
     getListaCandidatos();  
@@ -22,7 +22,9 @@ const ListaCandidatos = () => {
           <div>
             <div className={styles.infosEAdd}>          
               <h2>{listaCandidatos.length} CURRÍCULOS CADASTRADOS</h2>
-              <button><Link to="/cadastro-candidato">Cadastrar Novo</Link>{" "}</button>
+              <button><Link onClick={()=>{
+                setEditMode(false)
+              }} to="/cadastro-candidato">Cadastrar Novo</Link>{" "}</button>
             </div>
             <CardCandidatos/>   
           </div>  

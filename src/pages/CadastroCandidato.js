@@ -6,16 +6,49 @@ import * as Yup from 'yup'
 import { ErrorMessage } from "formik";
 import ReactInputMask from "react-input-mask";
 import moment from "moment";
+import { useContext } from "react";
+import { CandidatosContext } from "../context/CandidatosContext";
 
 const CadastroCandidato = () => {
-  
+  const {editCandidato,editMode,setEditMode} = useContext(CandidatosContext)
   const [disabledFieldsSchool,setDisabledFieldsSchool] = useState([])
   const [disabledFieldsExp,setDisabledFieldsExp] = useState([])
   const [fileInputValue,setFileInputValue] = useState("")
+  console.log(editCandidato)
+  const initialValues = editMode 
+  ? 
+  {
+    nome: editCandidato.candidato.nome,
+    cpf: editCandidato.candidato.cpf,
+    dataNascimento: editCandidato.candidato.dataNascimento,
+    rua: editCandidato.candidato.logradouro,
+    cargo: editCandidato.candidato.cargo,
+    senioridade: editCandidato.candidato.senioridade,
+    dadosEscolares: editCandidato.dadosEscolares,
+    experiencias: editCandidato.experiencias,
+    curriculo: "",
+    complemento: editCandidato.candidato.complemento,
+    numero: editCandidato.candidato.numero,
+    telefone: editCandidato.candidato.telefone,
+  } 
+  : 
+  {
+    nome: "",
+    cpf: "",
+    dataNascimento: "",
+    rua: "",
+    cargo: "",
+    senioridade: "",
+    dadosEscolares: [],
+    experiencias: [],
+    curriculo: "",
+    complemento: "",
+    numero: "",
+    telefone: "",
+  }
 
   const changeFile = (e,setFieldValue) =>{
     setFieldValue("curriculo", e.target.files[0]);
-    console.log(e.target)
     setFileInputValue(e.name)
   }
 
@@ -77,7 +110,7 @@ const CadastroCandidato = () => {
   const postExperiencia = async (values, idCandidato) => {
     values.experiencias.map(async (experiencia) => {
       let experienciaDTO = {
-        dataFim: experiencia.dataFim == "" ? null : new Date(experiencia.dataFim),
+        dataFim: experiencia.dataFim == "" ? null : new Date(formatDateToApi(experiencia.dataFim)),
         dataInicio: new Date(formatDateToApi(experiencia.dataInicio)),
         descricao: experiencia.descricao,
         nomeEmpresa: experiencia.nomeEmpresa,
@@ -92,7 +125,7 @@ const CadastroCandidato = () => {
   const postDadosEscolares = async (values, idCandidato) => {
     values.dadosEscolares.map(async (dados) => {
       let dadosEscolaresDTO = {
-        dataFim: dados.dataFim == "" ? null : new Date(dados.dataFim),
+        dataFim: dados.dataFim == "" ? null : new Date(formatDateToApi(dados.dataFim)),
         dataInicio: new Date(formatDateToApi(dados.dataInicio)),
         descricao: dados.descricao,
         instituicao: dados.instituicao,
@@ -103,6 +136,67 @@ const CadastroCandidato = () => {
       );
     });
   };
+
+  const putCandidato = async (values,idCandidato) =>{
+    console.log(values)
+    const candidatoCreateDTO = {
+      cargo: values.cargo,
+      complemento: values.complemento,
+      cpf: removeCPFMask(values.cpf),
+      dataNascimento: formatDateToApi(values.dataNascimento),
+      logradouro: values.rua,
+      nome: values.nome,
+      numero: Number(values.numero),
+      senioridade: values.senioridade,
+      telefone: values.telefone,
+    };
+    await api.put(`/candidato?idCandidato=${idCandidato}`,candidatoCreateDTO)
+  }
+
+  const putDadosEscolares = async (values,idCandidato) =>{
+    editCandidato.dadosEscolares.map(async (dadoEscolar)=>{
+      await api.delete(`/dados-escolares?idDadosEscolares=${dadoEscolar.idDadosEscolares}`)
+    })
+    values.dadosEscolares.map(async (dadoEscolarNovo)=>{
+      let dadosEscolaresDTO = {
+        dataFim: dadoEscolarNovo.dataFim == "" ? null : new Date(formatDateToApi(dadoEscolarNovo.dataFim)),
+        dataInicio: new Date(formatDateToApi(dadoEscolarNovo.dataInicio)),
+        descricao: dadoEscolarNovo.descricao,
+        instituicao: dadoEscolarNovo.instituicao,
+      };
+      await api.post(
+        `/dados-escolares?idCandidato=${idCandidato}`,
+        dadosEscolaresDTO
+      );
+    })
+  }
+
+  const putExperiencias = async (values,idCandidato) =>{
+    console.log(values)
+    editCandidato.experiencias.map(async (experiencia)=>{
+      await api.delete(`/experiencias?idExperiencia=${experiencia.idExperiencia}`)
+    })
+    values.experiencias.map(async (experienciaNova)=>{
+      let experienciaDTO = {
+        dataFim: experienciaNova.dataFim == "" ? null : new Date(formatDateToApi(experienciaNova.dataFim)),
+        dataInicio: new Date(formatDateToApi(experienciaNova.dataInicio)),
+        descricao: experienciaNova.descricao,
+        nomeEmpresa: experienciaNova.nomeEmpresa,
+      };
+      await api.post(
+        `/experiencias?idCandidato=${idCandidato}`,
+        experienciaDTO
+      );
+    })
+  }
+
+  const putCurriculo = async(values,idCandidato) =>{
+    if(fileInputValue != ""){
+      const formData = new FormData();
+      formData.append("file", values.curriculo);
+      await api.post(`/curriculo/upload-curriculo/${idCandidato}`, formData);
+    }
+  }
 
   const SignupSchema = Yup.object().shape({
     nome: Yup.string().required('Campo Obrigatório'),
@@ -124,7 +218,10 @@ const CadastroCandidato = () => {
       nomeEmpresa: Yup.string().required('Campo Obrigatório'),
       dataInicio: Yup.string().transform(value => {
         return formatDateRaw(value)
-      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate),
+      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura-nascimento","Sua data de início é passado ao seu nascimento",function(v){
+        let dataNascimento = formatDateRaw(this.from[1].value.dataNascimento)
+        return moment(v,'DDMMYYYY',true) > moment(dataNascimento,'DDMMYYYY',true)   
+      }),
       dataFim: Yup.string().when("atualmente",{
         is: (val) => val == false,
         then: Yup.string().transform(value => {
@@ -141,55 +238,56 @@ const CadastroCandidato = () => {
       instituicao: Yup.string().required('Campo Obrigatório'),
       dataInicio: Yup.string().transform(value => {
         return formatDateRaw(value)
-      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate),
+      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura-nascimento","Sua data de início é passado ao seu nascimento",function(v){
+        let dataNascimento = formatDateRaw(this.from[1].value.dataNascimento)
+        return moment(v,'DDMMYYYY',true) > moment(dataNascimento,'DDMMYYYY',true)   
+      }),
       descricao: Yup.string().required('Campo Obrigatório'),
       dataFim: Yup.string().when("atualmente",{
         is: (val) => val == false,
         then: Yup.string().transform(value => {
           return formatDateRaw(value)
-        }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura","Não pode ser uma data futura ao início",function(v){
+        }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura","Não pode ser uma data antes do início",function(v){
           return moment(v,'DDMMYYYY',true) > moment(this.parent.dataInicio,'DDMMYYYY',true)
         }),
         otherwise: Yup.string().notRequired()
       }),
     })),
-    curriculo: Yup.mixed().required('É necessário seu currículo')
+    curriculo: !editMode ? Yup.mixed().required('É necessário seu currículo') : Yup.mixed().notRequired()
   });
 
   return (
     <div className={styles.cadastroContainer}>
       <Formik
         validationSchema={SignupSchema}
-        initialValues={{
-          nome: "",
-          cpf: "",
-          dataNascimento: "",
-          rua: "",
-          cargo: "",
-          senioridade: "",
-          dadosEscolares: [],
-          experiencias: [],
-          curriculo: "",
-          complemento: "",
-          numero: "",
-          telefone: "",
-        }}
+        initialValues={initialValues}
         onSubmit={async (values, { resetForm }) => {
-          let idCandidato = await postCandidato(values);
-          await postCurriculo(values, idCandidato);
-          await postExperiencia(values, idCandidato);
-          await postDadosEscolares(values, idCandidato);
-          alert("Candidato cadastrado com sucesso");
+          if(!editMode){
+            let idCandidato = await postCandidato(values);
+            await postCurriculo(values, idCandidato);
+            await postExperiencia(values, idCandidato);
+            await postDadosEscolares(values, idCandidato);
+            alert("Candidato cadastrado com sucesso");
+          } else{
+            let idCandidato = editCandidato.candidato.idCandidato
+            await putCandidato(values,idCandidato)
+            await putExperiencias(values,idCandidato)
+            await putDadosEscolares(values,idCandidato)
+            await putCurriculo(values,idCandidato)
+            setEditMode(false)
+            alert(`Edição Completa`)
+          }
           setDisabledFieldsSchool([])
           setDisabledFieldsExp([])
           resetForm();
           setFileInputValue("")
         }}
+        enableReinitialize={true}
       >
         {({ values, setFieldValue, touched, errors }) => (
           <Form>
             <div className={styles.formDiv}>
-              <h1 className={styles.cadastroTitulo}>Cadastro de Candidatos</h1>
+              <h1 className={styles.cadastroTitulo}>{editMode ? "Edição de Candidato" : "Cadastro de Candidatos"}</h1>
               <div className={styles.fieldDiv}>
                 <label htmlFor="nome">Nome</label>
                 <Field id="nome" name="nome" placeholder="Digite seu nome" />
@@ -501,7 +599,7 @@ const CadastroCandidato = () => {
                 />
               </div>
               <div className={styles.fieldDiv}>
-                <label htmlFor="curriculo">Faça o upload do seu currículo</label>
+                <label htmlFor="curriculo">{!editMode ? `Faça o upload do seu currículo` : `Deixe vazio caso não queira alterar o currículo`}</label>
                 <input
                   type="file"
                   id="curriculo"
@@ -515,7 +613,7 @@ const CadastroCandidato = () => {
                 {errors.curriculo && touched.curriculo && <p className={styles.errors}>{errors.curriculo}</p>}
               </div>
               <button className={styles.submitButton} type="submit">
-                Fazer Cadastro
+                {editMode ? "Editar Candidato" : "Registrar Candidato"}
               </button>
             </div>
           </Form>
