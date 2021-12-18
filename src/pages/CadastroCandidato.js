@@ -137,8 +137,63 @@ const CadastroCandidato = () => {
     });
   };
 
-  const putCandidato = async (values) =>{
+  const putCandidato = async (values,idCandidato) =>{
+    const candidatoCreateDTO = {
+      cargo: values.cargo,
+      complemento: values.complemento,
+      cpf: removeCPFMask(values.cpf),
+      dataNascimento: formatDateToApi(values.dataNascimento),
+      logradouro: values.rua,
+      nome: values.nome,
+      numero: Number(values.numero),
+      senioridade: values.senioridade,
+      telefone: values.telefone,
+    };
+    await api.put(`/candidato?idCandidato=${idCandidato}`,candidatoCreateDTO)
+  }
 
+  const putDadosEscolares = async (values,idCandidato) =>{
+    editCandidato.dadosEscolares.map(async (dadoEscolar)=>{
+      await api.delete(`/dados-escolares?idDadosEscolares=${dadoEscolar.idDadosEscolares}`)
+    })
+    values.dadosEscolares.map(async (dadoEscolarNovo)=>{
+      let dadosEscolaresDTO = {
+        dataFim: dadoEscolarNovo.dataFim == "" ? null : new Date(dadoEscolarNovo.dataFim),
+        dataInicio: new Date(formatDateToApi(dadoEscolarNovo.dataInicio)),
+        descricao: dadoEscolarNovo.descricao,
+        instituicao: dadoEscolarNovo.instituicao,
+      };
+      await api.post(
+        `/dados-escolares?idCandidato=${idCandidato}`,
+        dadosEscolaresDTO
+      );
+    })
+  }
+
+  const putExperiencias = async (values,idCandidato) =>{
+    editCandidato.experiencias.map(async (experiencia)=>{
+      await api.delete(`/experiencias?idExperiencia=${experiencia.idExperiencia}`)
+    })
+    values.experiencias.map(async (experienciaNova)=>{
+      let experienciaDTO = {
+        dataFim: experienciaNova.dataFim == "" ? null : new Date(experienciaNova.dataFim),
+        dataInicio: new Date(formatDateToApi(experienciaNova.dataInicio)),
+        descricao: experienciaNova.descricao,
+        nomeEmpresa: experienciaNova.nomeEmpresa,
+      };
+      await api.post(
+        `/experiencias?idCandidato=${idCandidato}`,
+        experienciaDTO
+      );
+    })
+  }
+
+  const putCurriculo = async(values,idCandidato) =>{
+    if(fileInputValue != ""){
+      const formData = new FormData();
+      formData.append("file", values.curriculo);
+      await api.post(`/curriculo/upload-curriculo/${idCandidato}`, formData);
+    }
   }
 
   const SignupSchema = Yup.object().shape({
@@ -161,7 +216,10 @@ const CadastroCandidato = () => {
       nomeEmpresa: Yup.string().required('Campo Obrigatório'),
       dataInicio: Yup.string().transform(value => {
         return formatDateRaw(value)
-      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate),
+      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura-nascimento","Sua data de início é passado ao seu nascimento",function(v){
+        let dataNascimento = formatDateRaw(this.from[1].value.dataNascimento)
+        return moment(v,'DDMMYYYY',true) > moment(dataNascimento,'DDMMYYYY',true)   
+      }),
       dataFim: Yup.string().when("atualmente",{
         is: (val) => val == false,
         then: Yup.string().transform(value => {
@@ -178,13 +236,16 @@ const CadastroCandidato = () => {
       instituicao: Yup.string().required('Campo Obrigatório'),
       dataInicio: Yup.string().transform(value => {
         return formatDateRaw(value)
-      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate),
+      }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura-nascimento","Sua data de início é passado ao seu nascimento",function(v){
+        let dataNascimento = formatDateRaw(this.from[1].value.dataNascimento)
+        return moment(v,'DDMMYYYY',true) > moment(dataNascimento,'DDMMYYYY',true)   
+      }),
       descricao: Yup.string().required('Campo Obrigatório'),
       dataFim: Yup.string().when("atualmente",{
         is: (val) => val == false,
         then: Yup.string().transform(value => {
           return formatDateRaw(value)
-        }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura","Não pode ser uma data futura ao início",function(v){
+        }).required('Campo Obrigatório').length(8,'Digite a data completa').test("data-valida","Digite uma data válida",validateDate).test("data-futura","Não pode ser uma data antes do início",function(v){
           return moment(v,'DDMMYYYY',true) > moment(this.parent.dataInicio,'DDMMYYYY',true)
         }),
         otherwise: Yup.string().notRequired()
@@ -207,8 +268,12 @@ const CadastroCandidato = () => {
             alert("Candidato cadastrado com sucesso");
           } else{
             let idCandidato = editCandidato.candidato.idCandidato
-            alert('editou')
+            await putCandidato(values,idCandidato)
+            await putExperiencias(values,idCandidato)
+            await putDadosEscolares(values,idCandidato)
+            await putCurriculo(values,idCandidato)
             setEditMode(false)
+            alert(`Edição Completa`)
           }
           setDisabledFieldsSchool([])
           setDisabledFieldsExp([])
@@ -532,7 +597,7 @@ const CadastroCandidato = () => {
                 />
               </div>
               <div className={styles.fieldDiv}>
-                <label htmlFor="curriculo">{!editMode ? `Faça o upload do seu currículo` : `Caso queira alterar o currículo faça o upload do novo aqui, do contrário apenas deixe vazio`}</label>
+                <label htmlFor="curriculo">{!editMode ? `Faça o upload do seu currículo` : `Deixe vazio caso não queira alterar o currículo`}</label>
                 <input
                   type="file"
                   id="curriculo"

@@ -24,20 +24,18 @@ const CandidatosProvider = ({children}) =>{
     data[0].experiencias.map((experiencia)=>{
       experiencia.dataInicio =  moment(experiencia.dataInicio,'YYYY-MM-DD').format('DD/MM/YYYY')   
       if(experiencia.dataFim === null){
-        experiencia.atualmente = 1
+        experiencia.dataFim = ""
       } else{
         experiencia.dataFim =  moment(experiencia.dataFim,'YYYY-MM-DD').format('DD/MM/YYYY')
-        experiencia.atualmente = 0
       }
     })
 
     data[0].dadosEscolares.map((dadoEscolar)=>{
       dadoEscolar.dataInicio =  moment(dadoEscolar.dataInicio,'YYYY-MM-DD').format('DD/MM/YYYY')
       if(dadoEscolar.dataFim === null){
-        dadoEscolar.atualmente = 1
+        dadoEscolar.dataFim = ""
       } else{
         dadoEscolar.dataFim =  moment(dadoEscolar.dataFim,'YYYY-MM-DD').format('DD/MM/YYYY')
-        dadoEscolar.atualmente = 0
       }
     })
     
@@ -48,7 +46,7 @@ const CandidatosProvider = ({children}) =>{
   }
 
   return(
-    <CandidatosContext.Provider value={{listaCandidatos,setListaCandidatos, listaCandidatos, setListaCandidatos,getListaCandidatos,loadingCandidatos,getCandidatoCompleto,editCandidato,editMode}}>
+    <CandidatosContext.Provider value={{listaCandidatos,setListaCandidatos, listaCandidatos, setListaCandidatos,getListaCandidatos,loadingCandidatos,getCandidatoCompleto,editCandidato,editMode,setEditMode}}>
       {children}
     </CandidatosContext.Provider>
   )
