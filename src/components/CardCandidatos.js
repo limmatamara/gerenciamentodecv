@@ -21,8 +21,7 @@ const CardCandidatos = () => {
               <div key={candidato.idCandidato} className={styles.candidatoContainer}>
                  <Link to="/infocandidato" onClick={ () => setIdCandidato(candidato.idCandidato)} >  
                 <h3>{candidato.nome} <BsPencil className={styles.iconEdit}/></h3>
-                <p><BiUser className={styles.iconUser}/></p>    
-                <p>{candidato.idCandidato}</p>                          
+                <p><BiUser className={styles.iconUser}/></p>                          
                 <p> <BsCalendar className={styles.icons}/>{moment(candidato.dataNascimento).format('DD/MM/YYYY')}</p>
                 <p> <BsBriefcase className={styles.icons}/> {candidato.cargo}</p>
                 <p> <BsGraphUp className={styles.icons}/>{candidato.senioridade}</p> 
