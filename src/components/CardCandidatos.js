@@ -5,30 +5,36 @@ import { BiUser } from "react-icons/bi";
 import { BsCalendar } from "react-icons/bs";
 import { BsBriefcase } from "react-icons/bs";
 import { BsGraphUp } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import styles from './CardCandidatos.module.css';
 import moment from "moment";
-import { Link } from "react-router-dom";
-
 
 const CardCandidatos = () => {
-  const {listaCandidatos,getCandidatoCompleto} = useContext(CandidatosContext);
+  const {listaCandidatos, editCandidato, idCandidato, setIdCandidato,getCandidatoCompleto} = useContext(CandidatosContext);
   return (
-      <div className={styles.container}>
-        <div className={styles.cardContainer}>
-        {listaCandidatos.map(candidato => (      
-            <div key={candidato.idCandidato} className={styles.candidatoContainer}>
-              <h3>{candidato.nome}<Link to="/cadastro-candidato">
+      
+        <div className={styles.container}>
+          <div className={styles.cardContainer}>
+          {listaCandidatos.map(candidato => (   
+           
+              <div key={candidato.idCandidato} className={styles.candidatoContainer}>
+                 <Link to="/infocandidato" onClick={ () => setIdCandidato(candidato.idCandidato)} >  
+                <h3>{candidato.nome} <Link to="/cadastro-candidato">
               <BsPencil onClick={()=>{
                 getCandidatoCompleto(candidato.idCandidato)
               }} className={styles.iconEdit}/></Link></h3>
-              <BiUser className={styles.iconUser}/>                             
-              <p> <BsCalendar className={styles.icons}/><span>{moment(candidato.dataNascimento).format('DD/MM/YYYY')}</span></p>
-              <p> <BsBriefcase className={styles.icons}/><span>{candidato.cargo}</span></p>
-              <p> <BsGraphUp className={styles.icons}/><span>{candidato.senioridade}</span></p> 
-            </div>             
-        ))}
+                <p><BiUser className={styles.iconUser}/></p>                          
+                <p> <BsCalendar className={styles.icons}/>{moment(candidato.dataNascimento).format('DD/MM/YYYY')}</p>
+                <p> <BsBriefcase className={styles.icons}/> {candidato.cargo}</p>
+                <p> <BsGraphUp className={styles.icons}/>{candidato.senioridade}</p> 
+                </Link>  
+              </div> 
+               
+          ))}
+          </div>
+
         </div>
-      </div>
+      
   )
 }
 

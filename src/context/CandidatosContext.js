@@ -10,6 +10,8 @@ const CandidatosProvider = ({children}) =>{
   const [loadingCandidatos, setLoadingCandidatos] = useState(true);
   const [editCandidato,setEditCandidato] = useState({})
   const [editMode,setEditMode] = useState(false)
+  const [idCandidato, setIdCandidato] = useState(0);
+  const [dadosCompletosCandidato, setDadosCompletosCandidato]= useState([]);
   
   const getListaCandidatos = async () =>{
     const {data} = await api.get('/candidato')
@@ -45,8 +47,14 @@ const CandidatosProvider = ({children}) =>{
     console.log(data[0])
   }
 
+  const getDadosCompletosCandidato = async (idCandidato) => {
+    console.log("buscar dados do id ", idCandidato);
+    const {data} = await api.get('/candidato/dados-completos?idCandidato=' + idCandidato );
+    setDadosCompletosCandidato(data);
+  }
+
   return(
-    <CandidatosContext.Provider value={{listaCandidatos,setListaCandidatos, listaCandidatos, setListaCandidatos,getListaCandidatos,loadingCandidatos,getCandidatoCompleto,editCandidato,editMode,setEditMode}}>
+    <CandidatosContext.Provider value={{listaCandidatos,setListaCandidatos, listaCandidatos, setListaCandidatos,getListaCandidatos,loadingCandidatos,getCandidatoCompleto,editCandidato,editMode,setEditMode,idCandidato, setIdCandidato,dadosCompletosCandidato,getDadosCompletosCandidato}}>
       {children}
     </CandidatosContext.Provider>
   )

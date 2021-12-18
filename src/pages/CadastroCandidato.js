@@ -138,6 +138,7 @@ const CadastroCandidato = () => {
   };
 
   const putCandidato = async (values,idCandidato) =>{
+    console.log(values)
     const candidatoCreateDTO = {
       cargo: values.cargo,
       complemento: values.complemento,
