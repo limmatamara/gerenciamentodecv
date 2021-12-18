@@ -110,7 +110,7 @@ const CadastroCandidato = () => {
   const postExperiencia = async (values, idCandidato) => {
     values.experiencias.map(async (experiencia) => {
       let experienciaDTO = {
-        dataFim: experiencia.dataFim == "" ? null : new Date(experiencia.dataFim),
+        dataFim: experiencia.dataFim == "" ? null : new Date(formatDateToApi(experiencia.dataFim)),
         dataInicio: new Date(formatDateToApi(experiencia.dataInicio)),
         descricao: experiencia.descricao,
         nomeEmpresa: experiencia.nomeEmpresa,
@@ -125,7 +125,7 @@ const CadastroCandidato = () => {
   const postDadosEscolares = async (values, idCandidato) => {
     values.dadosEscolares.map(async (dados) => {
       let dadosEscolaresDTO = {
-        dataFim: dados.dataFim == "" ? null : new Date(dados.dataFim),
+        dataFim: dados.dataFim == "" ? null : new Date(formatDateToApi(dados.dataFim)),
         dataInicio: new Date(formatDateToApi(dados.dataInicio)),
         descricao: dados.descricao,
         instituicao: dados.instituicao,
@@ -159,7 +159,7 @@ const CadastroCandidato = () => {
     })
     values.dadosEscolares.map(async (dadoEscolarNovo)=>{
       let dadosEscolaresDTO = {
-        dataFim: dadoEscolarNovo.dataFim == "" ? null : new Date(dadoEscolarNovo.dataFim),
+        dataFim: dadoEscolarNovo.dataFim == "" ? null : new Date(formatDateToApi(dadoEscolarNovo.dataFim)),
         dataInicio: new Date(formatDateToApi(dadoEscolarNovo.dataInicio)),
         descricao: dadoEscolarNovo.descricao,
         instituicao: dadoEscolarNovo.instituicao,
@@ -172,12 +172,13 @@ const CadastroCandidato = () => {
   }
 
   const putExperiencias = async (values,idCandidato) =>{
+    console.log(values)
     editCandidato.experiencias.map(async (experiencia)=>{
       await api.delete(`/experiencias?idExperiencia=${experiencia.idExperiencia}`)
     })
     values.experiencias.map(async (experienciaNova)=>{
       let experienciaDTO = {
-        dataFim: experienciaNova.dataFim == "" ? null : new Date(experienciaNova.dataFim),
+        dataFim: experienciaNova.dataFim == "" ? null : new Date(formatDateToApi(experienciaNova.dataFim)),
         dataInicio: new Date(formatDateToApi(experienciaNova.dataInicio)),
         descricao: experienciaNova.descricao,
         nomeEmpresa: experienciaNova.nomeEmpresa,
