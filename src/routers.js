@@ -13,6 +13,7 @@ import Home from "./pages/Home"
 import { useState, useEffect } from "react"
 import CadastroCandidato from "./pages/CadastroCandidato"
 import { CandidatosProvider } from "./context/CandidatosContext"
+import NotFound from "./pages/NotFound"
 
 const Routers = () =>{
   const [isLogin, setIsLogin] = useState(false)
@@ -28,15 +29,23 @@ const Routers = () =>{
         <CandidatosProvider>
             <VagasProvider>
               {isLogin && <Header/>}
+              {isLogin 
+              ? 
               <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path='/cadastro' element={<Cadastro/>}/>
                 <Route path='/curriculos' element={<ListaCandidatos/>} />
                 <Route path='/infocandidato' element={<DetalheCandidato/>} />
                 <Route path='/cadastro-candidato' element={<CadastroCandidato/>}/>
-              </Routes>
+                <Route path="*" element={<NotFound/>}></Route>
+              </Routes> 
+              :
+              <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path='/cadastro' element={<Cadastro/>}/>
+                <Route path="*" element={<NotFound/>}></Route>
+              </Routes>}
             </VagasProvider>
-
         </CandidatosProvider>
       </AuthProvider>
     </BrowserRouter>

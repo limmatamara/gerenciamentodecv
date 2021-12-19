@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) =>{
     api.defaults.headers.common['Authorization'] = ''
     // navigate('/login')
     setAuth(false)
-    window.location.reload()
+    window.location.href = '/'
   }
 
   if(loading){
