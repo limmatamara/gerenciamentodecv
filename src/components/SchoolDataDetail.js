@@ -8,7 +8,6 @@ import styles from "./SchoolDataDetail.module.css"
 const SchoolDataDetail = () => {
   const {dadosCompletosCandidato} = useContext(CandidatosContext);
   const dataAtual =  moment();
-
   
   return (      
     <div className={styles.container}>
@@ -32,6 +31,7 @@ const SchoolDataDetail = () => {
             <div className={styles.textCardSchool}>
               <p><span>Instituição :</span> {dados.instituicao}</p>
               <div className={styles.infoData}>
+                {console.log(dados.dataInicio)}
                 <p><span>Data de Início:</span> {moment(dados.dataInicio).format('DD/MM/YYYY')}</p>
                   <p><span>Data de Conclusão:</span> 
                   {(moment(dados.dataFim)<= (dataAtual)) 
