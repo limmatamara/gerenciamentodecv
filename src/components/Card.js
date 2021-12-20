@@ -12,7 +12,7 @@ import api from "../api"
 
 const Card = ({ info }) => {
 
-  const {loadingAddCandidate,getListVagas,setLoadingAddCandidate} = useContext(VagasContext)
+  const {loadingAddCandidate,getListVagas,setLoadingAddCandidate,getPagesAlreadyLoaded} = useContext(VagasContext)
 
   const maxLengthVerify = (max, value) => {
     return value.length > max ? `${value.substring(0, max)}...` : value;
@@ -77,7 +77,7 @@ const Card = ({ info }) => {
             <AiFillCloseCircle onClick={async ()=>{
               setLoadingAddCandidate({state:true,cardId:info.vaga.id})
               await api.delete(`https://gerenciamento-cv.herokuapp.com/vaga/desvincular-candidato?idCandidato=${candidato.idCandidato}&idVaga=${info.vaga.id}`)
-              getListVagas()
+              getPagesAlreadyLoaded()
               setLoadingAddCandidate({state:false,cardId:null})
             }} className={styles.closeIcon} /> 
             : 

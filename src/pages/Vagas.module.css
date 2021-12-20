@@ -39,3 +39,21 @@
   margin-bottom:10px;
   font-weight: bold;
 }
+
+.vagas .loadMore{
+  background-color: #045CC3;
+  border: none;
+  margin:0 auto;
+  display: block;
+  width: 200px;
+  color:white;
+  padding: 10px 0px;
+  border-radius:10px;
+  margin-bottom:20px;
+  font-weight: bold;
+  cursor:pointer
+}
+
+.vagas .loadMore:hover{
+  background-color: #2877d1;
+}
