@@ -15,6 +15,7 @@ const CandidatosProvider = ({children}) =>{
   
   const getListaCandidatos = async () =>{
     const {data} = await api.get('/candidato')
+    data.sort((a,b) => a.idCandidato > b.idCandidato ? 1 : -1)
     setLoadingCandidatos(false)
     setListaCandidatos(data)
   }

@@ -18,6 +18,10 @@
   box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
 }
 
+.loginContainer .textContainer{
+  width:70%;
+}
+
 .loginContainer .logo{
   width: 250px;
   margin: 0 auto;
@@ -72,6 +76,11 @@
 
 .loginContainer button:hover {
   cursor: pointer;
+}
+
+.loginContainer .errors{
+  color:red;
+  margin-bottom:10px;
 }
 
 .cadastroContainer {

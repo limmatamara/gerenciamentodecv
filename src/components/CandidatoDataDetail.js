@@ -7,6 +7,9 @@ import styles from './CandidatoDataDetail.module.css'
 
 const CandidatoDataDetail = () => {
   const {dadosCompletosCandidato} = useContext(CandidatosContext);
+  const maxLengthVerify = (max, value) => {
+    return value.length > max ? `${value.substring(0, max)}...` : value;
+  };
   
   
   return (
@@ -16,14 +19,14 @@ const CandidatoDataDetail = () => {
           <div className={styles.infoCandidatoContainer}>
             <div className={styles.userContainer}>
               <BiUser className={styles.iconUser}/>
-              <h2>{dados.candidato.nome}</h2>
+              <h2>{maxLengthVerify(20,dados.candidato.nome)}</h2>
             </div>
             <div className={styles.infoContainer}>
               <div className={styles.textInfoContainer}>
                 <h2><SiTarget className={styles.iconInfo}/> Informações</h2>
                 <p><span>CPF:</span> {dados.candidato.cpf}</p>
                 <p><span>Data de Nascimento:</span> {moment(dados.candidato.dataNascimento).format('DD/MM/YYYY')}</p>
-                <p><span>Endereço:</span> {dados.candidato.logradouro}</p>
+                <p><span>Endereço:</span> {maxLengthVerify(64,dados.candidato.logradouro)}</p>
               </div>
             </div>
           </div>               
