@@ -8,7 +8,7 @@
   background-color: white;
   border-radius: 8px;
   box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
-  width: 40%;
+  width: 48%;
   padding: 2% 0%;
   margin: 20px 0px
 } 
@@ -27,7 +27,7 @@
 .iconEdit {
   font-size: 80%;
   color: #045CC3;
-  margin-left: 2%;
+  margin-left: 5px;
   cursor:pointer
 }
 

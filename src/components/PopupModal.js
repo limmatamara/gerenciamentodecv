@@ -16,6 +16,10 @@ const PopupModal = ({ cardInfo }) => {
   const [naoCadastrados,setNaoCadastrados] = useState([])
   const [loadingCandidate,setLoadingCandidate] = useState(true)
 
+  const maxLengthVerify = (max, value) => {
+    return value.length > max ? `${value.substring(0, max)}...` : value;
+  };
+
   const getNaoCadastrados = async () =>{
     setLoadingCandidate(true)
     const {data} = await api.get('/candidato')
@@ -52,7 +56,7 @@ const PopupModal = ({ cardInfo }) => {
               {naoCadastrados.map((candidato) => (
                 <li className="usuarioLi" key={candidato.idCandidato}>
                   <div className="candidatoInfo">
-                    <div className="sideInfo"><BiUser/><p>{candidato.nome}</p></div>
+                    <div className="sideInfo"><BiUser/><p>{maxLengthVerify(40,candidato.nome)}</p></div>
                     <div className="sideInfo"><IoDocumentTextOutline/><p>{candidato.cpf}</p></div>
                   </div>
                   <div className="adicionarCandidatoDiv">

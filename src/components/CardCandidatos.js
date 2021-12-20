@@ -10,6 +10,9 @@ import styles from './CardCandidatos.module.css';
 import moment from "moment";
 
 const CardCandidatos = () => {
+  const maxLengthVerify = (max, value) => {
+    return value.length > max ? `${value.substring(0, max)}...` : value;
+  };
   const {listaCandidatos, editCandidato, idCandidato, setIdCandidato,getCandidatoCompleto} = useContext(CandidatosContext);
   return (
       
@@ -19,14 +22,14 @@ const CardCandidatos = () => {
            
               <div key={candidato.idCandidato} className={styles.candidatoContainer}>
                  <Link to="/infocandidato" onClick={ () => setIdCandidato(candidato.idCandidato)} >  
-                <h3>{candidato.nome} <Link to="/cadastro-candidato">
+                <h3>{maxLengthVerify(32,candidato.nome)}<Link to="/cadastro-candidato">
               <BsPencil onClick={()=>{
                 getCandidatoCompleto(candidato.idCandidato)
               }} className={styles.iconEdit}/></Link></h3>
                 <p><BiUser className={styles.iconUser}/></p>                          
                 <p> <BsCalendar className={styles.icons}/>{moment(candidato.dataNascimento).format('DD/MM/YYYY')}</p>
-                <p> <BsBriefcase className={styles.icons}/> {candidato.cargo}</p>
-                <p> <BsGraphUp className={styles.icons}/>{candidato.senioridade}</p> 
+                <p> <BsBriefcase className={styles.icons}/> {maxLengthVerify(64,candidato.cargo)}</p>
+                <p> <BsGraphUp className={styles.icons}/>{maxLengthVerify(64,candidato.senioridade)}</p> 
                 </Link>  
               </div> 
                
