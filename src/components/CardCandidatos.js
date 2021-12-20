@@ -21,7 +21,10 @@ const CardCandidatos = () => {
           {listaCandidatos.map(candidato => (   
            
               <div key={candidato.idCandidato} className={styles.candidatoContainer}>
-                 <Link to="/infocandidato" onClick={ () => getDadosCompletosCandidato(candidato.idCandidato)} >  
+                 <Link to="/infocandidato" onClick={async () => {
+                   await getDadosCompletosCandidato(candidato.idCandidato)
+                   setIdCandidato(candidato.idCandidato)
+                 }} >  
                 <h3>{maxLengthVerify(32,candidato.nome)}<Link to="/cadastro-candidato">
               <BsPencil onClick={()=>{
                 getCandidatoCompleto(candidato.idCandidato)

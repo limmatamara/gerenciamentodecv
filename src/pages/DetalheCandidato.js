@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import SchoolDataDetail from "../components/SchoolDataDetail";
 import CandidatoDataDetail from "../components/CandidatoDataDetail";
 import ExperienceCandidateDetail from "../components/ExperienceCandidateDetail";
@@ -11,6 +11,7 @@ import { SiTarget} from "react-icons/si";
 import moment from "moment";
 import {FiBookOpen} from "react-icons/fi";
 import { GoGraph } from "react-icons/go"
+import api from "../api";
 
 const DetalheCandidato = () => {
   const {
@@ -18,6 +19,28 @@ const DetalheCandidato = () => {
     dadosCompletosCandidato,
     getDadosCompletosCandidato
   } = useContext(CandidatosContext);
+
+  const [linkCurriculo,setLinkCurriculo] = useState()
+
+  const downloadCurriculo = async () => {
+    console.log(localStorage.getItem('token'));
+    api({
+      url: `https://gerenciamento-cv.herokuapp.com/curriculo/download-curriculo/${idCandidato}`,
+      headers: {Authorization: localStorage.getItem('token')},
+      method: 'GET',
+      responseType: 'blob'
+  })
+      .then((response) => {
+            const url = window.URL
+                  .createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'curriculo.pdf');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+      })
+  }
 
   return (
     <section className={styles.detalheCandidatoContainer}>
@@ -45,6 +68,9 @@ const DetalheCandidato = () => {
               <p className={styles.personInfoP}><span>Rua:</span> {dados.candidato.logradouro}</p>
               <p className={styles.personInfoP}><span>Bairro:</span> {dados.candidato.complemento}</p>
               <p className={styles.personInfoP}><span>Número:</span> {dados.candidato.numero}</p>
+              <a className={styles.curriculoDownload} target="_blank" onClick={()=>{
+                downloadCurriculo()
+              }} href={linkCurriculo}>Download Currículo</a>
             </div>
             <div className={styles.rightInfos}>
               <h3><FiBookOpen className={styles.iconInfo} />Dados Escolares</h3>

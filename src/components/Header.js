@@ -1,6 +1,6 @@
 import styles from "./Header.module.css"
 import Menu from "./Menu"
-import Logo from "../images/Logo.png"
+import Logo from "../images/iconBranco.png"
 import { Link } from "react-router-dom"
 
 
