@@ -26,11 +26,11 @@ const Vagas = () =>{
         {listaVagas.map((vaga)=>(
           <Card key={vaga.vaga.id} info={vaga}/>
         ))}
-      </div>}
-      {pagesLoaded != vagaPages-1 && <button className={styles.loadMore} onClick={()=>{
+        {pagesLoaded != vagaPages-1 && <button className={styles.loadMore} onClick={()=>{
         loadNewPage(pagesLoaded)
         setPagesLoaded(pagesLoaded+1)
       }}>Carregar Mais</button>}
+      </div>}
     </section>
   )
 }

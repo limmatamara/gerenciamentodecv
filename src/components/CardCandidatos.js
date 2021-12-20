@@ -28,8 +28,8 @@ const CardCandidatos = () => {
               }} className={styles.iconEdit}/></Link></h3>
                 <p><BiUser className={styles.iconUser}/></p>                          
                 <p> <BsCalendar className={styles.icons}/>{moment(candidato.dataNascimento).format('DD/MM/YYYY')}</p>
-                <p> <BsBriefcase className={styles.icons}/> {maxLengthVerify(64,candidato.cargo)}</p>
-                <p> <BsGraphUp className={styles.icons}/>{maxLengthVerify(64,candidato.senioridade)}</p> 
+                <p> <BsBriefcase className={styles.icons}/> {maxLengthVerify(54,candidato.cargo)}</p>
+                <p> <BsGraphUp className={styles.icons}/>{maxLengthVerify(54,candidato.senioridade)}</p> 
                 </Link>  
               </div> 
                
