@@ -1,9 +1,3 @@
-.container {
-  width: 1200px;
-  margin: auto;
-  margin-top: 5%;
-}
-
 .infoCandidatoContainer {
   display: flex;
   justify-content: center;

@@ -13,7 +13,7 @@ const CardCandidatos = () => {
   const maxLengthVerify = (max, value) => {
     return value.length > max ? `${value.substring(0, max)}...` : value;
   };
-  const {listaCandidatos, editCandidato, idCandidato, setIdCandidato,getCandidatoCompleto} = useContext(CandidatosContext);
+  const {listaCandidatos, editCandidato, idCandidato, setIdCandidato,getCandidatoCompleto,getDadosCompletosCandidato} = useContext(CandidatosContext);
   return (
       
         <div className={styles.container}>
@@ -21,7 +21,7 @@ const CardCandidatos = () => {
           {listaCandidatos.map(candidato => (   
            
               <div key={candidato.idCandidato} className={styles.candidatoContainer}>
-                 <Link to="/infocandidato" onClick={ () => setIdCandidato(candidato.idCandidato)} >  
+                 <Link to="/infocandidato" onClick={ () => getDadosCompletosCandidato(candidato.idCandidato)} >  
                 <h3>{maxLengthVerify(32,candidato.nome)}<Link to="/cadastro-candidato">
               <BsPencil onClick={()=>{
                 getCandidatoCompleto(candidato.idCandidato)

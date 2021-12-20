@@ -4,6 +4,7 @@ import moment from "moment";
 import { BiUser } from "react-icons/bi";
 import { SiTarget} from "react-icons/si";
 import styles from './CandidatoDataDetail.module.css'
+import {FiBookOpen} from "react-icons/fi";
 
 const CandidatoDataDetail = () => {
   const {dadosCompletosCandidato} = useContext(CandidatosContext);
