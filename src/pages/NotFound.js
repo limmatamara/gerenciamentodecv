@@ -1,5 +1,5 @@
 import sadSmile404 from "../images/sadsmile404.png"
-import styles from "./NotFound.module.css"
+import styles from "../styles/NotFound.module.css"
 import { useEffect } from "react"
 const NotFound = () =>{
   useEffect(()=>{

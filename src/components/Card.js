@@ -1,4 +1,4 @@
-import styles from "./Card.module.css";
+import styles from "../styles/Card.module.css";
 import { FaAccessibleIcon } from "react-icons/fa";
 import { AiFillInfoCircle, AiFillCloseCircle } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";

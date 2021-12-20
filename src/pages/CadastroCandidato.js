@@ -1,5 +1,5 @@
 import { Formik, Field, Form, FieldArray } from "formik";
-import styles from "./CadastroCandidato.module.css";
+import styles from "../styles/CadastroCandidato.module.css";
 import api from "../api";
 import { useState } from "react";
 import * as Yup from 'yup'

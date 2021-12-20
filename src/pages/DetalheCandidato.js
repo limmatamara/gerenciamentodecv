@@ -1,9 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import SchoolDataDetail from "../components/SchoolDataDetail";
-import CandidatoDataDetail from "../components/CandidatoDataDetail";
-import ExperienceCandidateDetail from "../components/ExperienceCandidateDetail";
 import { CandidatosContext } from "../context/CandidatosContext";
-import styles from "./DetalheCandidato.module.css";
+import styles from "../styles/DetalheCandidato.module.css";
 import { AiOutlineUser } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";
 import { BsBriefcase } from "react-icons/bs";

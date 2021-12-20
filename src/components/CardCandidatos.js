@@ -6,7 +6,7 @@ import { BsCalendar } from "react-icons/bs";
 import { BsBriefcase } from "react-icons/bs";
 import { BsGraphUp } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import styles from './CardCandidatos.module.css';
+import styles from '../styles/CardCandidatos.module.css';
 import moment from "moment";
 
 const CardCandidatos = () => {

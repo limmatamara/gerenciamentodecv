@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { VagasContext } from "../context/VagasContext";
 import api from "../api";
 import { useState, useEffect } from "react";
-import "./Popup.css";
+import "../styles/Popup.css";
 import loadingGif from "../images/loading.gif";
 import ReactTooltip from "react-tooltip";
 
