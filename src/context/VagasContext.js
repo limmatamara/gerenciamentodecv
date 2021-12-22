@@ -29,12 +29,26 @@ const VagasProvider = ({children}) =>{
 
   const loadNewPage = async (page) =>{
     const {data} = await api.get(`/vaga/vaga-candidato-paginada?pagina=${page+1}&quantidade=10`)
+    data.vagas.map((vaga)=>{
+      vaga.candidatos.sort(function(a, b){
+        if(a.nome[0] < b.nome[0]) { return -1; }
+        if(a.nome[0] > b.nome[0]) { return 1; }
+        return 0;
+    })
+    })
     setListaVagas([...listaVagas,...data.vagas])
   }
 
   const getPagesAlreadyLoaded = async () =>{
     let pagesAlreadyLoaded = (pagesLoaded+1)*10
     const {data} = await api.get(`/vaga/vaga-candidato-paginada?pagina=0&quantidade=${pagesAlreadyLoaded}`)
+    data.vagas.map((vaga)=>{
+      vaga.candidatos.sort(function(a, b){
+        if(a.nome[0] < b.nome[0]) { return -1; }
+        if(a.nome[0] > b.nome[0]) { return 1; }
+        return 0;
+    })
+    })
     setListaVagas(data.vagas)
   }
 
